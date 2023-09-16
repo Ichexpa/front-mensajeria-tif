@@ -1,0 +1,702 @@
+:root{
+    --color-fondo-principal:#0F1C2E;
+    --color-listado-canales: #1F3A5F;
+    --color-mensajeria-input:#1d3659;
+    --color-fondo-input: #4d648d;
+    --color-agregar-explorar-servidores:#0F1C2E;
+    --color-hastag-fondo-logo-bienvenida:#12223a;
+    --color-fondo-hover: #3D5A80;
+    --fuente-carteles:'Open Sans', sans-serif; 
+}
+*{
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+    font-family: 'IBM Plex Sans Condensed', sans-serif;
+    color: #DCDCDC;
+    /* 
+    font-family: 'Lato', sans-serif; */
+    /* font-family: 'Open Sans', sans-serif; */
+    /* font-family: 'Roboto', sans-serif; */
+}
+.interfaz-principal{
+    width: 100vw;
+    height: 100vh;
+    display: grid;
+    grid-template-columns: 4% 13% auto ;
+    grid-template-rows: 5%  85% 10%;
+    grid-template-areas: "servidores canales mensajeria"
+                         "servidores canales mensajeria"
+                         "servidores perfil-user caja-texto";
+    background-color: var(--color-fondo-principal);
+    color:white
+}
+.barra-navegacion-servidores{
+    grid-area: servidores;
+    display: flex;
+    flex-direction: column;
+    padding: 10px;
+}
+#agregar-servidor{
+    order: -1;
+}
+#explorar-servidores{
+    order:0;
+}
+.servidores-utilidades{
+    display: flex;
+    flex-direction: column;
+    width: 100%;
+
+}
+.servidores-del-usuario{
+    display: flex;
+    flex-direction: column;
+}
+/* .servidores-utilidades .servidores{
+  height: 50%;
+} */
+.servidores{
+    border-radius: 50%;
+    margin-bottom: 6px;
+    height: 60px;
+    cursor: pointer;
+    overflow: hidden;
+    transition: border-radius 0.3s ease;
+}
+.servidor-descripcion{
+    display: none;
+}
+.servidor-seleccionado{
+  border-width: 3px;
+  border-style: solid;
+  border-color: #108d83;
+}
+.servidores img{
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+}
+.servidores:hover{
+    border-radius: 35%;    
+}
+#agregar-servidor,#explorar-servidores{    
+    background-color: var(--color-listado-canales);
+    padding: 5px;
+}
+#agregar-servidor:hover,#explorar-servidores:hover{
+    border-radius: 35%;    
+}
+
+.listado-canales{
+    grid-area: canales;
+    display: flex;
+    flex-direction: column;
+    background-color: var(--color-listado-canales);
+}
+.sin-canales-ni-servidor{
+    padding: 10px;
+    height: 100%;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+}
+.imagen-sin-canales{
+   min-width: 50px;
+   max-height: 150px;
+   min-height: 50px;
+   max-width: 300px;
+   overflow: hidden;
+   margin-bottom: 20px;
+}
+.imagen-sin-canales img{
+    width: 100%;
+    height: 100%;
+}
+.texto-sin-canales{
+    text-align: center;
+    color: rgb(188, 188, 188);
+}
+.mensajes-usuarios{
+    grid-area: mensajeria;
+    /* border:1px solid black; */
+    background-color: var(--color-mensajeria-input);
+    display: flex;
+    flex-direction: column;
+    padding-left: 10px;
+    padding-right: 10px;
+    overflow: auto;
+}
+.mensaje-bienvenida{
+  padding: 10px;
+  order: -1;
+}
+.hastag-logo{
+    width: 100px;
+    height: 100px;
+    border-radius: 50%;
+    background-color: var(--color-hastag-fondo-logo-bienvenida);
+    margin-bottom: 10px;
+    padding: 5px;
+}
+.hastag-logo img{
+    object-fit: cover;
+    width: 100%;
+    height: 100%;
+    filter: invert(93%) sepia(28%) saturate(464%) hue-rotate(170deg) brightness(113%) contrast(97%);
+}
+.mensaje-bienvenida h1{
+    font-size: 2.5em;
+    margin-bottom: 10px;
+}
+.mensaje-bienvenida p{
+    font-size: 17px;
+    line-height: 20px;
+    font-weight: 400;
+    color: #a9b0ab;
+}
+
+.caja-mensajes{
+    grid-area: caja-texto;
+    display: flex;
+    align-items: center;
+    padding: 10px;
+    background-color: var(--color-mensajeria-input);
+}
+
+#perfil-usuario{
+    grid-area: perfil-user;
+}
+.agregar-canal{
+    order: 0;
+    display: flex;
+    justify-content: center;
+    width: 100%;
+}
+#agregar-canal-boton{
+    background-color: whitesmoke;
+    color: black;
+    width: 70%;
+    height: 40px;
+    padding: 5px;
+    margin-top: 10px;
+    margin-bottom: 20px;
+    border: none;
+    transition: background-color 0.3s ease;
+    border-radius: 42px 43px 41px 37px;
+    cursor: pointer;
+}
+#agregar-canal-boton:hover{
+    background-color: var(--color-fondo-hover) ;
+    color: white;
+}
+.canales{
+    display: flex;
+    flex-direction: column;  
+    padding: 0 10px 0 10px; 
+    margin: 5px; 
+}
+.canal{
+    cursor: pointer;
+    border-radius: 5px; 
+    color: rgb(143, 140, 140);
+    padding: 5px;
+    transition: background-color 0.3s ease;
+    margin-bottom: 8px;
+}
+.canal-descripcion{
+    display: none;
+}
+
+.canal:hover{
+    background-color: var(--color-fondo-hover);
+    color: wheat;
+    font-weight: bold;   
+}
+.canal span{
+    margin-left: 4px
+}
+/* Por si quiero agregar la funcionalidad de editar el canal
+.canal input{
+    display: inline-block;
+    border: none;
+    background-color: var(--color-fondo-principal);
+    font-size: inherit ;
+    width: 90%;
+    padding: 5px;
+} */
+.canal-seleccionado{
+   color: white;
+   font-weight: bolder; 
+}
+.header-canales{
+    display: flex;
+    align-items: center;
+    color: gray;
+    font-size: 0.8em;
+    font-weight:800;
+    cursor: pointer;
+}
+.no-mostrar{
+    display: none;    
+}
+.angulares-activado-desactivado{
+    margin-left: 10px;
+    margin-right: 5px;
+    font-size: 0.6em;
+}
+#canal-no-desplegado{
+    display: none;
+}
+#canal-desplegado{
+    display: block;
+}
+.header-canales:hover{
+    color: wheat;
+}
+.perfil-usuario{
+    display: flex;
+    flex-direction: row;
+    justify-content: start;
+    align-items: center;
+    padding: 10px;
+    transition: background-color 0.3s ease;
+    cursor: pointer;
+}
+.perfil-usuario:hover{
+    background-color: var(--color-listado-canales);   
+}
+.imagen{
+    max-width: 70px;
+    max-height: 70px;
+    border-radius: 50%;
+    margin-right: 5px;
+}
+#img-perfil{
+    width: 100%;
+    height: 100%;
+    object-fit: cover;    
+}
+
+.info-usuario{
+    display: flex;
+    flex-direction: column;
+    align-content: space-evenly;
+    margin-left: 10px;
+}
+.nombre-usuario{
+    font-weight: bold;
+}
+.alias-usuario{
+    font-size: 14px;
+    line-height: 20px;
+    font-weight: 400;
+    color: #9ea9a1;
+}
+/* Caja de texto con boton */
+.caja-enviar-mensaje{
+    display: flex;
+    align-items: center;
+    width: 100%;
+    height: 70%;
+    padding: 8px;
+    border-radius: 10px;
+    background-color: var(--color-fondo-input) ;
+    color: whitesmoke;
+}
+.caja-enviar-mensaje input{
+    flex:1;
+    color: inherit;
+    background-color: inherit;
+    border: none;
+    outline: none;
+    padding: 4px;
+    font-size: 20px;
+}
+.caja-enviar-mensaje button{   
+    background-color: inherit;
+    margin-left: 5px; 
+    margin-right: 5px;
+    flex-shrink: 0;
+    /* cursor: pointer; */
+    border:none;
+    border-radius: 5px;
+    width: 2.5%;
+    height: auto;
+}
+#img-enviar{
+    padding: 2px;
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+/*     background-color: rgba(44, 240, 51, 0.754);
+    border-radius: 12px; */
+    filter: invert(93%) sepia(28%) saturate(464%) hue-rotate(170deg) brightness(113%) contrast(97%);
+    /* filter: invert(51%) sepia(67%) saturate(3453%) hue-rotate(87deg) brightness(118%) contrast(93%); */
+}
+.modal{
+    position: fixed;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background-color: #111111bd;
+    display: flex;
+    opacity: 0;
+    pointer-events: none;
+    transition: opacity .6s;
+}
+.modal-container{
+    margin: auto;
+    width: 90%;
+    max-height: 90%;
+    max-width: 600px;
+    background-color: var(--color-listado-canales);
+    color: whitesmoke;
+    border-radius: 6px;
+    /* padding: 3em 2.5em; */
+    padding: 2em;
+    display: grid;
+    gap: 1em;
+    grid-auto-columns: 100%;/* #configurarDps */
+}
+.modal-container p{
+    font-size: 14px;
+    line-height: 20px;
+    font-weight: 400;
+    color: #9ea9a1;
+    margin-top: -1em;
+}
+.modal-titulo{
+    font-size: 2.5rem;
+    text-align: center;
+}
+.modal-parrafo{
+    margin-bottom: 10px;
+}
+.boton-modal{
+    padding: 1em 2em;
+    border: 1px solid;
+    border-radius: 6px;
+    display: inline-block;
+    font-weight: 300;
+    transition: background-color .3s;
+    border:none;
+    cursor: pointer;
+    
+}
+.boton-modal:hover{
+    color:#3C98AB;
+    background-color: white;
+}
+.modal-agregar{    
+    color: white;
+    background-color: #3C98AB;
+}
+.modal-agregar:hover{  
+    background-color: white;
+    color: #3C98AB;
+}
+.modal-cerrar{
+    color: white;
+    background-color: #5B2638;
+    margin-left: 5px;
+}
+.modal-cerrar:hover{
+    color: #5B2638;
+    background-color: white;
+}
+.subir-imagen-servidor{
+    width: 120px;
+    height: 120px;
+    border-radius: 50%;
+    cursor: pointer;
+    overflow: hidden;
+    justify-self: center;
+   /*  border: 1px solid white;
+    outline: none; */
+}
+.subir-imagen-servidor img{
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+}
+.agregar-servidor p{
+    margin-top: 5px;
+}
+
+#input-img-servidor{
+    display: none;
+}
+.caja-ingreso{
+    display: flex;
+    border-radius: 8px;
+    padding: 10px;
+    justify-content: start;
+    align-items: center;
+    background-color: var(--color-fondo-input);
+    align-self: center;
+}
+.caja-ingreso input,textarea{
+    border: none;
+    width: 100%;
+    font-size: 1.2em;
+    background-color: inherit;
+    outline: none;
+    color: whitesmoke;
+}
+
+.caja-ingreso i{
+   margin: 0 5px 0 3px;   
+}
+
+.caja-ingreso textarea{
+    width: 100%;
+    height: 100px;
+}
+.msj-advertencia{
+    display: none;
+    color: red ;
+    font-size: 0.8em;
+}
+.modal-mostrar{
+    opacity: 1;
+    pointer-events: unset;
+    transition: opacity .6s;
+}
+.seccion-botones-canal{
+    display: flex;
+    justify-content: end;
+    padding: 10px;
+}
+.nombre-input{
+    color: rgb(201, 192, 192);
+    font-size: 0.8em;
+    font-weight:800;
+    text-transform: uppercase;
+}
+.mesajes{
+    display: flex;
+    flex-direction: column;
+}
+.contenedor-mensaje{
+    display: flex;
+    width: 100%;
+    margin-bottom: 15px;
+    border-radius: 5px;
+    padding: 5px;
+    position: relative;
+} 
+.contenedor-mensaje:hover{
+    background-color: var(--color-fondo-hover);    
+}
+.mensaje-perfil-img{
+    width: 4%;
+    height: 4%;
+    border-radius: 50%;
+    margin-right: 15px;
+}
+.mensaje-perfil-img img{
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+}
+.mensaje-con-foto-perfil{
+    display: flex;
+    flex-direction: column;
+    width: 100%;
+}
+.mensaje-info{
+    width: 100%;
+    display: flex;
+    align-items: baseline;
+}
+.mensaje-nombre-remitente{
+    font-size: 1.1em;
+    margin-right: 5px;
+}
+.mensaje-fecha{
+    font-size: 0.8em;
+    line-height: 20px;
+    font-weight: 400;
+    color: #9ea9a1;
+}
+
+.mensaje-con-foto-perfil .mensaje{
+    line-height: 1.5;
+    margin-top:5px;
+    flex-grow: 1;
+}
+.mensaje-acciones{
+    display: none;
+    /* margin-left: auto;
+    margin-right: 1%; */
+    background-color: #083014;
+    border-radius: 5px;
+    padding: 2px;
+    top: -15px;
+    right: 40px;
+    position: absolute;
+}
+.editar-mensaje{
+    margin-right: 12px;
+}
+/* VEAMOS QUE TAL ANDA CON ESTO */
+.editar-mensaje, .eliminar-mensaje{
+    padding: 4px;
+    transition: color 0.3s ease ;
+}
+.editar-mensaje:hover, .eliminar-mensaje:hover{
+    background-color: #89d4a0 ;
+    border-radius: 7px;
+    cursor:pointer;
+    color: #0f6328;
+}
+.editar-texto-textarea{
+    display: block;
+    line-height: 1.5;
+    font-size: 1em;
+    color: white;
+    text-align: left;
+    width: 100%;
+    outline: none;
+    border: none;
+    background-color: var(--color-fondo-principal);
+    resize: none;
+    padding: 5px;
+    border-radius: 5px;
+    overflow: auto;    
+}
+
+/* Menu contextual */
+.menu-contextual{
+    background-color: #041108;
+    position: absolute;
+    color: white;
+    z-index: 10;
+    box-shadow: 2px 2px 5px rgba(0, 0, 0, 0.2);
+    padding: 5px;
+    border-radius: 10px;
+}
+.menu-contextual ul{
+    list-style: none;
+   
+}
+.menu-contextual li{
+    border-radius : 5px;
+    font-size: 0.9em;
+    color: rgb(205, 193, 193);
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+    /* border-bottom: 1px solid white; */
+    padding: 7px 4px;
+}
+.menu-contextual li:hover{
+    background-color: var(--color-fondo-hover);
+    color: white;    
+}
+.accion-requerida-mensaje{
+    grid-column: 3 / 4;
+    grid-row: 1 / 4;
+    width: 100%;
+    display: flex;
+   /*  border: 1px solid white;    */ 
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+}
+.contenedor-imagen-mensaje{
+   padding: 10px; 
+   /* border: 1px solid white; */
+}
+.accion-requerida-imagen{
+    max-width: 650px;
+    max-height: 650px;
+    margin: 0 auto 30px auto;
+
+  /*   overflow: hidden; */
+}
+.accion-requerida-imagen img{
+    width: 100%;
+    height: 100%;
+    object-fit: contain;    
+}
+.accion-requerida-descripcion{
+    font-family: var(--fuente-carteles);
+    text-align: center;
+    font-size: 1.5em;
+    font-weight: 600;
+}
+.descripcion-seleccion-servidor{
+    font-size: 1em;
+    text-align: justify;
+    display: block;
+    width: 100%;
+    margin: auto;
+}
+.selecciona-servidor-comenzar{
+    font-size: 1.2em;
+    text-align: center;
+    display: block;
+    width: 100%;
+    margin: auto;
+}
+/* Estilos adiciones para modales de edicion */
+.cuerpo-modal-advertencias{
+    display: flex;
+    align-items: stretch;
+    
+}
+.imagen-cuerpo-modal{
+    width: 100px;
+    height: 100px;    
+}
+.imagen-cuerpo-modal img{
+    object-fit: cover;
+    width: 100%;
+    height: auto;
+}
+.info-cuerpo-modal{
+    margin-left: 20px;
+    max-width: 500px;
+    max-height: 200px;
+}
+.info-cuerpo-modal p{
+    margin: 0%;
+    display: block;
+    overflow: auto;
+    margin-top: 10px;
+    font-size: 1.0em;
+    max-height: 150px;    
+}
+.seccion-botones-confirmacion{
+    display: flex;
+    justify-content: space-between;
+}
+.seccion-botones-confirmacion button{
+    font-size: 1em;
+    cursor: pointer;
+}
+.boton-confirmar{
+    padding: 15px;
+    color: wheat;
+    background-color: #18493A;
+    border: none;
+    border-radius: 20px;
+    transition: background-color 0.3s ease;
+}
+.boton-confirmar:hover{
+    background-color: #30BB91;
+}
+.boton-cancelar{
+    border: none;
+    border-bottom: 1px solid red ;
+    color: red;
+    background-color: inherit;
+    transition: color 0.3s ease,border 0.3s ease;
+}
+.boton-cancelar:hover{
+    color: rgb(227, 135, 135);
+    border-color: rgb(227, 135, 135) ;
+}
