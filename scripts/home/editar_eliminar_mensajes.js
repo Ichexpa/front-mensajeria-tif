@@ -67,8 +67,19 @@ function respuestaModalEliminacion(modal,contenedorAEliminar){
         const confirmar=e.target.closest(".boton-confirmar")
         const cancelar=e.target.closest(".boton-cancelar")
         if(confirmar){
+            const id_mensaje=contenedorAEliminar.id
             modal.remove()
-            contenedorAEliminar.remove()
+            const apiRaizURL="http://127.0.0.1:5000"
+            fetch(`${apiRaizURL}/mensaje/${id_mensaje}`,{method:"DELETE"})
+            .then(response=>{
+                if(response.status===204){
+                    contenedorAEliminar.remove()
+                }
+                else{
+                    throw Error("No se pudo eliminar el mensaje")
+                }
+            }).catch(error=>console.log("ERROR",error))
+            
         }
         if(cancelar){
             modal.remove()
