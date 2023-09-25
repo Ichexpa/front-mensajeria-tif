@@ -64,6 +64,9 @@
     overflow: hidden;
     transition: border-radius 0.3s ease;
 }
+.servidores span{
+    display: none;
+}
 .servidor-descripcion{
     display: none;
 }
@@ -284,6 +287,9 @@
     flex-direction: column;
     align-content: space-evenly;
     margin-left: 10px;
+}
+.info-usuario span{
+    display: none;
 }
 .nombre-usuario{
     font-weight: bold;
