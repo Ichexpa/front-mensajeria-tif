@@ -1,0 +1,33 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Mensajeria TIF</title>
+    <link rel="stylesheet" href="../styles/login/login.css">
+</head>
+<body>
+    <div class="login">
+        <img src="../assets/imagenes/explorar-servidores.png" class="image-izquierda" alt="">
+        <img src="../assets/imagenes/information-carousel-3c.png" class="image-derecha" alt="">
+        <div class="form-container">
+            <h1 class="title">Iniciar Sesion</h1>
+            <form action="" id="formulario" class="form">
+                <label for="input_nickname_email" class="label">Usuario</label>
+                <input type="text"  class="input" id="input_nickname_email" name="input_nickname_email" 
+                placeholder="Ingrese nombre de usuario o correo" required>
+            
+                <label for="input_contrasenia" class="label">Contraseña</label>
+                <input type="password" class="input"  id="input_contrasenia" name="input_contrasenia" required>
+            
+                <button id="btn_login" class="boton-primario">Iniciar Sesión</button>
+                <p class="registrarse">¿No tienes una cuenta? <a href="registro.html">Registrarse</a></p>
+                
+            </form>
+            <div id="message" class="message-error"></div>
+        </div>
+        
+    </div>
+    <script src="../scripts/login/login.js"></script>
+</body>
+</html>
