@@ -1,0 +1,106 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Mensajeria TIF</title>
+    <link rel="stylesheet" href="../styles/profile/perfil.css">
+</head>
+<body>
+    <header>
+        <div>
+            Logo
+        </div>
+        <div>
+            <nav class="nav">
+                <ul class="nav-ul">
+                    <li class="nav-item"><a href="home.html">Home</a></li>
+                    <li class="nav-item"><a href="login.html">Cerrar Sesion</a></li>
+                </ul>
+            </nav>
+        </div>
+    </header>
+    <main class="main-container">
+        <div class="perfil-container">
+            <div class="articles-container">
+                <article id="info-perfil" style="display: block">
+                    <p>Información básica:</p>
+                    <form action="" id="form-perfil" class="form">
+    
+                        <label for="input_nickname" class="label">Nombre de Usuario</label>
+                        <input type="text"  class="input" id="input_nickname" name="input_nickname" 
+                        onmousedown="return false;" required readonly>
+        
+                        <label for="input_nombre" class="label">Nombre</label>
+                        <input type="text"  class="input" id="input_nombre" name="input_nombre" 
+                        onmousedown="return false;" required readonly>
+        
+                        <label for="input_apellido" class="label">Apellido</label>
+                        <input type="text"  class="input" id="input_apellido" name="input_apellido" 
+                        onmousedown="return false;" required readonly>
+        
+                        <label>Fecha de nacimiento</label>
+                        <input type="date" class="input" id="input_fecha" name="input_fecha"
+                        onmousedown="return false;" required readonly>
+                    
+                        <button id="btn_registrar" class="boton-primario">Confirmar</button>
+                        <p class="registrarse">¿No tienes una cuenta? <a href="/">Resgistrarse</a></p>  
+                    </form>
+                    <div id="message" class="message-error"></div>
+                </article>
+                <article id="info-seguridad" style="display: none;">
+                    <p>Cambiar datos de Seguridad:</p>
+                    <form action="" id="form-seguridad" class="form">
+    
+                        <label for="input_email" class="label">Email</label>
+                        <input type="text"  class="input" id="input_email" name="input_email"
+                        onmousedown="return false;" required readonly>
+        
+                        <label for="input_contrasenia" class="label">Contraseña actual</label>
+                        <input type="password"  class="input" id="input_contrasenia" name="input_contrasenia"
+                        onmousedown="return false;" required readonly>
+                        
+                        <label for="input_contrasenia_nueva" class="label">Contraseña nueva</label>
+                        <input type="password"  class="input" id="input_contrasenia_nueva" name="input_contrasenia_nueva"
+                        onmousedown="return false;" required readonly>
+
+                        <label for="input_contrasenia_con" class="label">Confirmar contraseña nueva</label>
+                        <input type="password"  class="input" id="input_contrasenia_conf" name="input_contrasenia_conf"
+                        onmousedown="return false;" required readonly>
+                    </article>
+
+                <article id="info-imagen-profile" style="display: none;">
+                    <div>
+                        <img src="/assets/avatares/imagen1.jpg" alt="">
+                    </div>
+                    <label for="input_imagen" class="label">Selecciona una imagen</label>
+                    <input type="file"  class="input" id="input_imagen" name="input_imagen" required>
+                </article>
+                
+            </div>
+            <div class="aside-container">
+                <div class="contenedor-imagen">
+                    <img src="../assets/avatares/imagen1.jpg" alt="">
+                    <p>Nombre  Usuario</p>
+                </div>
+                <div class="item-container">
+                    <ul class="item-container-list">
+                        <li id="li_perfil" class="item-list item-selected" onclick="seleccionar_item(this)"><a href="#info-perfil">Mi Perfil</a></li>
+                        
+                        <li id="li_foto" class="item-list" onclick="seleccionar_item(this)"><a href="#info-imagen-profile">Fotografia</a></li>
+
+                        <li id="li_seguridad" class="item-list" onclick="seleccionar_item(this)"><a href="#info-seguridad">Seguridad</a></li>
+                    </ul>
+                </div>
+            </div>
+            <div class="cabecera-container">
+                    <h1 id="titulo-cabecera">Mi Perfil</h1>
+                    <p id="descripcion-cabecera">Modificar Informacion Básica</p>
+            </div>
+        </div>  
+        
+    </main>
+    <script src="../scripts/profile/profile.js"></script>
+    <script src="../scripts/profile/aside.js"></script>
+</body>
+</html>
