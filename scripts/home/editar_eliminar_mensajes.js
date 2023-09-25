@@ -1,5 +1,3 @@
-/* import { modalComponenteConfirmacion} from "./modales";
-import { mostarModal } from "./modales"; */
 const contenedorPadreMensaje=document.querySelector(".mensajes")
 console.log(contenedorPadreMensaje)
 
@@ -14,6 +12,7 @@ contenedorPadreMensaje.addEventListener("click",(e)=>{
     respuestaModalEliminacion(modalEliminarMensaje,contenedorMensaje)
   }
   if(editarMensaje){
+    const id_mensaje=editarMensaje.closest(".contenedor-mensaje").id
     const cont_mensaje = editarMensaje.closest(".mensaje-con-foto-perfil");
     const mensaje= cont_mensaje.querySelector(".mensaje")
     const textArea=document.createElement("textarea");
@@ -22,7 +21,8 @@ contenedorPadreMensaje.addEventListener("click",(e)=>{
     textArea.style.height= (mensaje.offsetHeight + 10) +  "px";
     mensaje.remove();
     cont_mensaje.appendChild(textArea);
-    editarMensajeTextarea(textArea,mensaje,cont_mensaje);
+    
+    editarMensajeTextarea(textArea,mensaje,cont_mensaje,id_mensaje);
   }
 })
 contenedorPadreMensaje.addEventListener("mouseover",(e)=>{
@@ -40,14 +40,14 @@ contenedorPadreMensaje.addEventListener("mouseout",(e)=>{
      }
 })
 
-function editarMensajeTextarea(textArea,contenedorMensaje,contendorMensajeAreemplazar){
+function editarMensajeTextarea(textArea,contenedorMensaje,contendorMensajeAreemplazar,id_mensaje){
     textArea.addEventListener("keydown",(e)=>{
     if(e.key==="Enter"){
         e.preventDefault()  
         if(textArea.value.trim() !== ""){
             const modalEditarMensaje=modalComponenteConfirmacion("Modificar comentario","Estas seguro que desea modificar?: ","rgb(18,77,101)","../assets/imagenes/edit.png",contenedorMensaje.textContent)
             mostarModal(modalEditarMensaje)
-            respuestaModalModificacion(modalEditarMensaje,textArea,contenedorMensaje,contendorMensajeAreemplazar)
+            respuestaModalModificacion(modalEditarMensaje,textArea,contenedorMensaje,contendorMensajeAreemplazar,id_mensaje)
         }
         else{
             /* console.log(textArea) */
@@ -67,25 +67,52 @@ function respuestaModalEliminacion(modal,contenedorAEliminar){
         const confirmar=e.target.closest(".boton-confirmar")
         const cancelar=e.target.closest(".boton-cancelar")
         if(confirmar){
+            const id_mensaje=contenedorAEliminar.id
             modal.remove()
-            contenedorAEliminar.remove()
+            const apiRaizURL="http://127.0.0.1:5000"
+            fetch(`${apiRaizURL}/mensaje/${id_mensaje}`,{method:"DELETE"})
+            .then(response=>{
+                if(response.status===204){
+                    contenedorAEliminar.remove()
+                }
+                else{
+                    throw Error("No se pudo eliminar el mensaje")
+                }
+            }).catch(error=>console.log("ERROR",error))
+            
         }
         if(cancelar){
             modal.remove()
         }
     })
 }
-function respuestaModalModificacion(modal,textArea,contenedorMensaje,contendorMensajeAreemplazar){
+function respuestaModalModificacion(modal,textArea,contenedorMensaje,contendorMensajeAreemplazar,id_mensaje){
     modal.addEventListener("click",(e)=>{
         const confirmar=e.target.closest(".boton-confirmar")
         const cancelar=e.target.closest(".boton-cancelar")
         if(confirmar){
             modal.remove()
             const contenidoTextareaMSJ=textArea.value
-            textArea.remove()
-            /* console.log("OK se cargo" + contenidoTextareaMSJ) */
-            contenedorMensaje.textContent=contenidoTextareaMSJ;                    
-            contendorMensajeAreemplazar.appendChild(contenedorMensaje)
+            const apiRaizURL="http://127.0.0.1:5000"
+            const requestOption={
+                                method : "PUT",
+                                headers : {
+                                    'Content-Type': 'application/json'
+                                },
+                                body : JSON.stringify({contenido: contenidoTextareaMSJ}) 
+            }
+            fetch(`${apiRaizURL}/mensaje/${id_mensaje}`,requestOption)
+            .then(response=>{
+                if(response.status===200){
+                    textArea.remove()
+                    contenedorMensaje.textContent=contenidoTextareaMSJ;                    
+                    contendorMensajeAreemplazar.appendChild(contenedorMensaje)
+                }
+                else{                    
+                    throw Error("Ocurrio un error al actualizar el mensaje")
+                }
+            }).catch(error=>console.log("ERROR",error))
+            
         }
         if(cancelar){
             modal.remove()

@@ -1,16 +1,80 @@
 // JavaScript
-const input = document.getElementById("input-mensaje");
+const inputMensaje = document.getElementById("input-mensaje");
 const boton = document.getElementById("boton-enviar");
 const imgEnviar= document.getElementById("img-enviar")
 const contenedorDeMensajes= document.querySelector(".mensajes");
 function enviarMensaje() {
-  if (input.value.trim() !== "") {
-    console.log("Mensaje enviado:", input.value.trim());
-    componenteMensajeAenviar("Mauricio",input.value.trim(),fechaYHoraActual())
-    input.value = ""; // Limpiamos el input después de enviar el mensaje
-    boton.disabled = true; // Deshabilitamos el botón después de enviar el mensaje
-    deshabilitarEnvio(true)
+  const id_canal=getCanalSeleccionado()
+  const contenidoMensajeLimpio=inputMensaje.value.trim()
+  console.log(id_canal)
+  if (contenidoMensajeLimpio !== "" && id_canal !== null) {
+    /* DESPUES CAMBIAR ID USUARIO DINAMICO */
+    const id_usuario=1
+    const apiRaizURL="http://127.0.0.1:5000"
+    const mensajeObjeto={
+                  contenido: contenidoMensajeLimpio,
+                  usuario:{
+                          id_usuario:id_usuario
+                            },
+                  id_canal: id_canal,
+                  }
+    const requestOption={
+                    method:"POST",
+                    headers: {
+                              "Content-type":"application/json"
+                              },                    
+                    body: JSON.stringify(mensajeObjeto)
+                        }   
+    fetch(`${apiRaizURL}/mensaje/`,requestOption)
+    .then(response=>{
+      if(response.status===201){
+        return response.json()
+      }
+      throw Error("Se produjo un error al crear el mensaje")
+    })
+    .then(data=> data.mensaje.id_mensaje)
+    .then(id_mensaje=>{
+      const requestOption={
+                method:"GET",
+                headers: {
+                          "Content-type":"application/json"
+                          }
+                    }   
+      console.log(id_mensaje)
+      return fetch(`${apiRaizURL}/mensaje/${id_mensaje}`,requestOption)
+      })
+      .then(response=>{
+          if(response.status===200){
+            return response.json()
+          }
+          throw Error("Se produjo un error al recuperar el mensaje")
+      })
+      .then(mensaje_data=>{
+        cargarComponenteMensaje(mensaje_data)
+        // Limpiamos el input después de enviar el mensaje
+        // Deshabilitamos el botón después de enviar el mensaje
+        inputMensaje.value = "";
+        boton.disabled = true;
+        deshabilitarEnvio(true)      
+      })
+    }    
+}
+function cargarComponenteMensaje(jsonMensaje){
+  const contenido=jsonMensaje.contenido
+  /* DESPUES FORMATEAR */
+  const fechaHora=jsonMensaje.fecha_hora
+  const id_mensaje=jsonMensaje.id_mensaje
+  const nickname=jsonMensaje.usuario.nickname
+  const id_usuario=jsonMensaje.usuario.id_usuario
+  const avatar=jsonMensaje.usuario.avatar
+  componenteMensajeAenviarAPI(nickname,contenido,fechaHora,id_mensaje,id_usuario)
+}
+function getCanalSeleccionado(){
+  const canal=document.querySelector(".canal-seleccionado")
+  if(canal!== null){
+    return canal.id
   }
+  return null
 }
 function fechaYHoraActual(){
     let fechaYhora= new Date();
@@ -33,68 +97,19 @@ function deshabilitarEnvio(estaVacio){
   }
 }
 function validarInput() {
-  let estaVacio=input.value.trim() === "";
+  let estaVacio=inputMensaje.value.trim() === "";
   boton.disabled=estaVacio
   deshabilitarEnvio(estaVacio)
 }
 
-input.addEventListener("input", validarInput);
-input.addEventListener("keydown", (e) => {
+inputMensaje.addEventListener("input", validarInput);
+inputMensaje.addEventListener("keydown", (e) => {
   if (e.key === "Enter") {
     enviarMensaje();
   }
 });
 
-function componenteMensajeAenviar(nombreUsuario,contenidoMensaje,fechaYhora){
-  const contenedorEstructuraMensajes=document.createElement("div");
-  contenedorEstructuraMensajes.className="contenedor-mensaje";
-  const contenedorImgPerfil=document.createElement("div");
-  contenedorImgPerfil.className="mensaje-perfil-img";
-  const contenedorImg=document.createElement("img");
-  contenedorImg.className="img-perfil";
-  /* Direccion de la imagen */
-  contenedorImg.src="../assets/avatares/imagen1.jpg";
-  contenedorImg.alt="Foto de perfil";
-  contenedorImgPerfil.appendChild(contenedorImg);
-  contenedorEstructuraMensajes.appendChild(contenedorImgPerfil)
-  const contenedorMensajesFotoPerfil=document.createElement("div");
-  contenedorMensajesFotoPerfil.className="mensaje-con-foto-perfil";
-  contenedorEstructuraMensajes.appendChild(contenedorMensajesFotoPerfil);      
-  const contenedorMensajeInfo= document.createElement("div");
-  contenedorMensajeInfo.className="mensaje-info";
-  contenedorMensajesFotoPerfil.appendChild(contenedorMensajeInfo);
-  const contenedorNombreRemitente=document.createElement("div");
-  contenedorNombreRemitente.className="mensaje-nombre-remitente"
-  /* Nombre Usuario */
-  contenedorNombreRemitente.textContent=nombreUsuario;
-  contenedorMensajeInfo.appendChild(contenedorNombreRemitente);
-  const contenedorFechaHoraEnvio=document.createElement("div");
-  contenedorFechaHoraEnvio.className="mensaje-fecha"
-  /* Hora Envio */
-  contenedorFechaHoraEnvio.textContent=fechaYhora;
-  contenedorMensajeInfo.appendChild(contenedorFechaHoraEnvio);
-  const contenedorAcciones=document.createElement("div");
-  contenedorAcciones.className="mensaje-acciones";
-  contenedorMensajeInfo.appendChild(contenedorAcciones);
-  const contenedorEditarMensaje=document.createElement("div");
-  contenedorEditarMensaje.className="editar-mensaje";
-  contenedorAcciones.appendChild(contenedorEditarMensaje);
-  const iconoEditar=document.createElement("i");
-  iconoEditar.className="fa-solid fa-pen-to-square";
-  contenedorEditarMensaje.appendChild(iconoEditar);
-  const contenedorEliminarMensaje=document.createElement("div");   
-  contenedorEliminarMensaje.className="eliminar-mensaje";
-  contenedorAcciones.appendChild(contenedorEliminarMensaje);
-  const iconoEliminar=document.createElement("i");
-  iconoEliminar.className="fa-solid fa-trash"; 
-  contenedorEliminarMensaje.appendChild(iconoEliminar);             
-  const contenedorContenidoMensaje=document.createElement("div");
-  contenedorContenidoMensaje.className="mensaje";
-  /* Contenido del mensaje */
-  contenedorContenidoMensaje.textContent=contenidoMensaje
-  contenedorMensajesFotoPerfil.appendChild(contenedorContenidoMensaje);
-  contenedorDeMensajes.appendChild(contenedorEstructuraMensajes)
-}
+
 
 boton.addEventListener("click", enviarMensaje);
 

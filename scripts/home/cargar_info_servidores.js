@@ -1,20 +1,82 @@
 const servidores=document.querySelector(".servidores-del-usuario")
 
 servidores.addEventListener("click",(e)=>{
+    const apiRaizURL="http://127.0.0.1:5000"
+    const requestOption={
+        methods:"GET",
+        headers:{
+            "Accept":"application/json"
+        }
+    }
     const servidorClickeado=e.target.closest(".servidores")
+
     if(servidorClickeado){
-        reestablecerCanales()
+        const id_servidor=servidorClickeado.id
+        console.log("ID DEL SERVIDOR ES",id_servidor)
+        
         ocultarChatCajaMensajes()
         mensajeServidorClickeado(servidorClickeado)
+        limpiarListaCanales()
+        fetch(`${apiRaizURL}/canal/servidor/${id_servidor}`,requestOption)
+        .then(response=>{
+            if(response.status===200){
+                return response.json()
+            }
+            else{
+                throw Error("Se produjo un error al consumir el canal")
+            }
+        })
+        .then(data=>{
+            canalJSONaComponente(data)
+            reestablecerCanales()
+        })        
+        
     }
 })
-function reestablecerCanales(){
+function canalJSONaComponente(json){
+    const lista_canales=json.canales
+    const contenedorDeCanales=document.querySelector(".canales")
+    lista_canales.forEach(canal=>{
+        let canalComponente=canalComponenteAPI(canal.nombre,canal.descripcion,canal.id_canal)
+        contenedorDeCanales.appendChild(canalComponente)
+    })
+}
+function canalComponenteAPI(nombre,descripcion,id_canal){
+    const canalContenedor = document.createElement("div");
+    canalContenedor.className = "canal";
+    canalContenedor.id=id_canal.toString()
+    const iconoSharp = document.createElement("i");
+    iconoSharp.className = "fa-solid fa-hashtag hashtag-canales";
+    canalContenedor.appendChild(iconoSharp);
 
+    /* Contenedor para el nombre del canal */
+    const nombreCanal = document.createElement("span");
+    nombreCanal.textContent = nombre;
+    canalContenedor.appendChild(nombreCanal);
+    /*Contenedor para la descripcion del canal */
+    const descripcionCanal= document.createElement("div");
+    descripcionCanal.className="canal-descripcion"
+    descripcionCanal.textContent=elCanaltieneDescripcion(descripcion)
+    canalContenedor.appendChild(descripcionCanal)
+    return canalContenedor;
+}
+
+function limpiarListaCanales(){
+    const contenedorDeCanales=document.querySelector(".canales")
+    const canales=Array.from(contenedorDeCanales.children)
+    canales.forEach(canal=>{
+        console.log(canal)
+        canal.remove()        
+    })
+}
+
+
+function reestablecerCanales(){
     const canalesCantidad=document.querySelector(".canales")
     const mensajeSinCanalesDisponibles=document.querySelector(".sin-canales-ni-servidor")
     mostrarFuncionalidadesCanales()
     if(canalesCantidad.childElementCount===0){
-        console.log("entro")
+        console.log("hola")
         mensajeSinCanalesDisponibles.style.display="flex"
     }
     else{

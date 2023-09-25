@@ -59,12 +59,39 @@ agregarCanalModal.addEventListener("click",()=>{
     const valorInput=inputModal.value
     const valorTextAreaDescripcion=textAreaDescripcionCanal.value
     if(valorInput.trim() !== ""){
-       const canalContenedor=canalComponente(valorInput,valorTextAreaDescripcion);
-       contenedorDeCanales.appendChild(canalContenedor);
-       modal.classList.remove("modal-mostrar")
-       inputModal.value=""
-       textAreaDescripcionCanal.value=""
-       componenteSiNoExistenCanales.style.display="none"
+       const apiRaizURL="http://127.0.0.1:5000"
+       const id_servidor=getServidorSeleccionado()
+       console.log("SERVIDOR ID DESDE CANALES",id_servidor)
+       canalObjeto={nombre:valorInput,
+                    descripcion:valorTextAreaDescripcion,
+                    id_servidor: id_servidor} 
+        console.log("DATOS",canalObjeto)
+       const requestOption={
+                            method:"POST",
+                            body: JSON.stringify(canalObjeto),
+                            headers: {
+                                "Content-type":"application/json"
+                            }
+       }
+       fetch(`${apiRaizURL}/canal/`,requestOption)
+       .then(response=>{
+            if(response.status===201){
+                return response.json()
+            }
+            throw Error("Ocurrio un error al crear el canal")
+       })
+       .then(data=>{
+            const id_canal=data.canal.id_canal
+            const canalContenedor=canalComponenteAPI(valorInput,valorTextAreaDescripcion,id_canal);
+            contenedorDeCanales.appendChild(canalContenedor);
+            modal.classList.remove("modal-mostrar")
+            inputModal.value=""
+            textAreaDescripcionCanal.value=""
+            componenteSiNoExistenCanales.style.display="none"
+       })
+       .catch(error=>console.log("ERROR",error))
+      
+
     }
     else{
         mensajeErrorCanal.style.display="block"
@@ -72,14 +99,75 @@ agregarCanalModal.addEventListener("click",()=>{
 })
 
 agregarServidorModal.addEventListener("click",()=>{
-    const inputValor=inputNombreServidorModal.value;
+    const inputNombre=inputNombreServidorModal.value;
     const imagenServidor=contenedorImagenServidor.src;
     const descripcionServidor=descripcionServidorTextarea.value
-    if(imagenServidor !== "" && inputValor.trim() !== "" ){
-        const servidorCreado=servidorComponente(inputValor,imagenServidor,descripcionServidor)
-        modalAgregarServidor.classList.remove("modal-mostrar")
-        alternarMensajesSinCanales_Servidores_Modales()
-        servidorCreado.click()
+    const imagenServidorInput=inputFileSubirImagen.files[0]
+    console.log(imagenServidorInput)
+    if(imagenServidor !== "" && inputNombre.trim() !== "" ){
+        const formularioDatosServidor=new FormData()
+        formularioDatosServidor.append("imagen",imagenServidorInput)
+        formularioDatosServidor.append("nombre",inputNombre)
+        formularioDatosServidor.append("descripcion",descripcionServidor)
+        console.log(formularioDatosServidor)
+        const apiRaizURL="http://127.0.0.1:5000"
+        const requestOption={
+                            method:"POST",
+                            body: formularioDatosServidor,                
+                            }
+        fetch(`${apiRaizURL}/servidor/`,requestOption)
+        .then(response=>{
+            if(response.status===201){
+                return response.json()
+            }
+            throw Error("ocurrio un error al intentar crear el servidor")
+        })
+        .then(data=>{
+            return data.servidor.id_servidor
+        })
+        .then(id_servidor=>{
+            console.log(id_servidor)
+            /* DESPUES CAMBIAR EL ID DE USAURIO PARA QUE SEA DINAMICO */
+            const jsonDataServidorUsuario={id_servidor:id_servidor,id_usuario:1}
+            const requestOption={
+                method:"POST",
+                headers: {"Content-type":"application/json"},
+                body:JSON.stringify(jsonDataServidorUsuario)
+            }
+            return fetch(`${apiRaizURL}/usuario_servidor/`,requestOption)
+        }).then(response_u_s=>{
+            if(response_u_s.status===201){
+                return response_u_s.json()
+            }
+            throw Error("No se pudo crear usuario_servidor")
+        }).then(data_usuario_servidor=>{
+            return data_usuario_servidor.usuario_servidor.id_usuario_servidor
+        }).then(id_usuario_servidor=>{
+            const requestOption={
+                method:"GET",
+                headers: {"Content-type":"application/json"}
+            }
+            return fetch(`${apiRaizURL}/usuario_servidor/${id_usuario_servidor}`,requestOption)
+        }).then(response_g_u_s=>{
+            if(response_g_u_s.status===200){
+                return response_g_u_s.json()
+            }
+            throw Error("NO SE PUDO OBTENER INFO DE USUARIO SERVIDOR")
+        }).then(data_usuario_servidor=>{
+                console.log(data_usuario_servidor)
+                const rutaRaizImagenes="G:/UPATECO/MENSAJERIA_TIF/api_mensajeria/static_folder/servidor_imagenes/"
+                const id_usuario_servidor=data_usuario_servidor.id_usuario_servidor
+                const servidor=data_usuario_servidor.servidor
+                const rutaCompletaImagen=rutaRaizImagenes+servidor.imagen
+                const servidorCreado=servidorComponenteAPIPOST(servidor.nombre,rutaCompletaImagen,
+                            servidor.descripcion,servidor.id_servidor,id_usuario_servidor)      
+
+                modalAgregarServidor.classList.remove("modal-mostrar")
+                alternarMensajesSinCanales_Servidores_Modales()
+                servidorCreado.click()
+        }).catch(error=>console.log("ERROR",error))
+
+        /* ACA DEBO IMPLEMENTAR EL FETCH */
     }
     else{
         mensajeErrorServidor.style.display="block"
@@ -89,11 +177,46 @@ agregarServidorModal.addEventListener("click",()=>{
     contenedorImagenServidor.alt=""
     descripcionServidorTextarea.value=""
 })
-
-function canalComponente(nombre,descripcion){
+function getServidorSeleccionado(){
+    const servidorSeleccionado=document.querySelector(".servidor-seleccionado")
+    if(servidorSeleccionado!==null){
+        return servidorSeleccionado.id
+    }
+    return null
+}
+function elCanaltieneDescripcion(descripcion){
+    if(descripcion.trim() !== ""){
+        return descripcion
+    }
+    else{
+        return "El canal no posee descripción"
+    }
+}
+function servidorComponenteAPIPOST(nombre,imagen,descripcion,id_servidor,id_usuario_servidor){
+    const contenedorServidoresUsuario=document.querySelector(".servidores-del-usuario")
+    const servidorComponente=document.createElement("div")
+    servidorComponente.className="servidores";
+    servidorComponente.id=id_servidor.toString()
+    /* ESTE SPAN SIRVE PARA ABANDONAR UN SERVIDOR TOMANDO EL id_usuario_servidor DE LA BD */
+    const spanIdUsuarioServidor=document.createElement("span")
+    spanIdUsuarioServidor.id=id_usuario_servidor.toString()
+    servidorComponente.appendChild(spanIdUsuarioServidor)
+    const imagenServidor=document.createElement("img")
+    imagenServidor.setAttribute("src",imagen)
+    imagenServidor.setAttribute("alt",nombre)
+    const descripcionServidor=document.createElement("div")
+    descripcionServidor.className="servidor-descripcion"
+    descripcionServidor.textContent=descripcion
+    servidorComponente.appendChild(imagenServidor);
+    servidorComponente.appendChild(descripcionServidor)
+    contenedorServidoresUsuario.appendChild(servidorComponente);
+    return servidorComponente
+}
+/* NO se puede exportar asi que repito la funcion */
+function canalComponenteAPI(nombre,descripcion,id_canal){
     const canalContenedor = document.createElement("div");
     canalContenedor.className = "canal";
-
+    canalContenedor.id=id_canal.toString()
     const iconoSharp = document.createElement("i");
     iconoSharp.className = "fa-solid fa-hashtag hashtag-canales";
     canalContenedor.appendChild(iconoSharp);
@@ -109,30 +232,6 @@ function canalComponente(nombre,descripcion){
     canalContenedor.appendChild(descripcionCanal)
     return canalContenedor;
 }
-function elCanaltieneDescripcion(descripcion){
-    if(descripcion.trim() !== ""){
-        return descripcion
-    }
-    else{
-        return "El canal no posee descripción"
-    }
-}
-function servidorComponente(nombre,imagen,descripcion){
-    const contenedorServidoresUsuario=document.querySelector(".servidores-del-usuario")
-    const servidorComponente=document.createElement("div")
-    servidorComponente.className="servidores";
-    const imagenServidor=document.createElement("img")
-    imagenServidor.setAttribute("src",imagen)
-    imagenServidor.setAttribute("alt",nombre)
-    const descripcionServidor=document.createElement("div")
-    descripcionServidor.className="servidor-descripcion"
-    descripcionServidor.textContent=descripcion
-    servidorComponente.appendChild(imagenServidor);
-    servidorComponente.appendChild(descripcionServidor)
-    contenedorServidoresUsuario.appendChild(servidorComponente);
-    return servidorComponente
-}
-/* NO se puede exportar asi que repito la funcion */
 
 function alternarMensajesSinCanales_Servidores_Modales(){
     const servidoresUsuario=document.querySelector(".servidores-del-usuario")
