@@ -1,0 +1,24 @@
+:root{
+    --color-fondo-principal:#0F1C2E;
+    --color-fondo-secundario:#1d3659;
+    --color-fondo-claro: #c0d6f5;
+
+    --color-fondo-input: #c0d6f5;
+    --color-boton-primario:#0F1C2E;
+    --color-boton-secundario:#c0d6f5;
+    --color-boton-terciario:#1d3659;
+    --color-boton-cuatro:#044b50;
+
+    --fuente-carteles:'Open Sans', sans-serif; 
+}
+*{
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+    font-family: 'IBM Plex Sans Condensed', sans-serif;
+    color: #DCDCDC;
+    /* 
+    font-family: 'Lato', sans-serif; */
+    /* font-family: 'Open Sans', sans-serif; */
+    /* font-family: 'Roboto', sans-serif; */
+}
