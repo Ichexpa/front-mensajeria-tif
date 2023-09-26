@@ -6,8 +6,26 @@ const requestOption={
         "Accept":"application/json"
     }
 }
+/*Cargar el perfil del usuario por unica vez*/
+
+    fetch(`${apiRaizURL}/usuario/profile`, {
+        method: 'GET',
+        credentials: 'include'
+    })
+    .then(response => {
+        if (response.status === 200) {
+            return response.json()
+        }
+        throw Error("Ocurrio un error al obtener el usuario ")
+        })
+    .then(data=>{
+        cargarInfoUsuario(data)
+        cargarServidoresDelUsuario()
+    }).catch(error=>console.log("Error",error))
 /* POR AHORA SE UTILIZA POR DEFECTO EL ID 1 DESPUES HACERLO DINAMICO */
-fetch(`${apiRaizURL}/usuario_servidor/usuario/1`)
+function cargarServidoresDelUsuario(){
+    const id_usuario=document.querySelector(".perfil-usuario").id
+    fetch(`${apiRaizURL}/usuario_servidor/usuario/${id_usuario}`)
     .then(response=>{
         if(response.status===200){
             return response.json()
@@ -20,6 +38,8 @@ fetch(`${apiRaizURL}/usuario_servidor/usuario/1`)
         procesarJsonServidorAComponente(data)
     } )
     .catch(error=> console.log("ERROR",error))
+}
+
 
 function procesarJsonServidorAComponente(json_servidores){
     const listado_servidores=json_servidores.servidores_usuario
@@ -27,19 +47,33 @@ function procesarJsonServidorAComponente(json_servidores){
         const id_usuario_servidor=propiedad_servidor_usuario.id_usuario_servidor
         const servidor=propiedad_servidor_usuario.servidor
         const rutaCompletaImagen=rutaRaizImagenes+servidor.imagen
-        servidorComponenteAPIGET(servidor.nombre,rutaCompletaImagen,
+        servidorComponenteAPI(servidor.nombre,rutaCompletaImagen,
                             servidor.descripcion,servidor.id_servidor,id_usuario_servidor)
     })
     
 }
-
-function servidorComponenteAPIGET(nombre,imagen,descripcion,id_servidor,id_usuario_servidor){
+function cargarInfoUsuario(json_usuario){
+    const id_usuario=json_usuario.id_usuario
+    const nickname=json_usuario.nickname
+    const nombre_apellido=json_usuario.nombre + " " + json_usuario.apellido
+    const avatar=json_usuario.avatar
+    const contenedorUsuarioHome=document.querySelector(".perfil-usuario")
+    contenedorUsuarioHome.id=id_usuario
+    const componenteImagen=contenedorUsuarioHome.querySelector(".imagen")
+    const componenteInfo=contenedorUsuarioHome.querySelector(".info-usuario")
+    /* Cambiar cuando este implementado el guardado de imagenes */
+    componenteImagen.querySelector("img").src=avatar
+    componenteInfo.querySelector(".nombre-usuario").textContent=nombre_apellido
+    componenteInfo.querySelector(".alias-usuario").textContent="#"+nickname
+}
+function servidorComponenteAPI(nombre,imagen,descripcion,id_servidor,id_usuario_servidor){
     const contenedorServidoresUsuario=document.querySelector(".servidores-del-usuario")
     const servidorComponente=document.createElement("div")
     servidorComponente.className="servidores";
     servidorComponente.id=id_servidor.toString()
     /* ESTE SPAN SIRVE PARA ABANDONAR UN SERVIDOR TOMANDO EL id_usuario_servidor DE LA BD */
     const spanIdUsuarioServidor=document.createElement("span")
+    spanIdUsuarioServidor.textContent=nombre
     spanIdUsuarioServidor.id=id_usuario_servidor.toString()
     servidorComponente.appendChild(spanIdUsuarioServidor)
     const imagenServidor=document.createElement("img")

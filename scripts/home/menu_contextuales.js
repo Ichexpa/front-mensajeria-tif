@@ -53,9 +53,41 @@ perfilUsuario.addEventListener("contextmenu",(e)=>{
   if(menuAbierto){
     cerrarMenusContextualesActivos()
   }
-  mostrarMenuContextual(["Ver perfil","Editar perfil"],e)
+  const menuUsuario=mostrarMenuContextual(["Ver perfil","Editar perfil","Cerrar Sesión"],e)
+  console.log(menuUsuario)
+  accionesUsuario(menuUsuario)
   menuAbierto=true 
 })
+function accionesUsuario(accionesMenuUsuario){
+  const lista_acciones=Array.from(accionesMenuUsuario.querySelector("ul").children)
+  console.log(lista_acciones)
+  lista_acciones.forEach((opcion,indice)=>{
+    opcion.addEventListener("click",()=>{
+      if(indice===0){
+        window.location.href="profile.html"
+      }
+      else if(indice===1){
+        console.log("EDITAR PERFIL")
+      }
+      else{
+        cerrarSesion()
+      }
+    })
+  })
+}
+function cerrarSesion(){
+  const apiRaizURL="http://127.0.0.1:5000"
+  fetch(`${apiRaizURL}/usuario/logout`,{method:"GET"})
+  .then(response=>{
+    if(response.status===200){
+      window.location.href="login.html"
+    }
+    else{
+      throw Error("No se pudo cerrar la sesion")
+    }
+  })
+  .catch(error=>console.log("ERROR",error))
+}
 /* Sacar comentario cuando arregle los errores JS */
 canalesContenedor.addEventListener("contextmenu",(e)=>{
     e.preventDefault();

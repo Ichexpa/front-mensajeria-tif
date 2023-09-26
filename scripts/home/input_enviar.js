@@ -9,7 +9,7 @@ function enviarMensaje() {
   console.log(id_canal)
   if (contenidoMensajeLimpio !== "" && id_canal !== null) {
     /* DESPUES CAMBIAR ID USUARIO DINAMICO */
-    const id_usuario=1
+    const id_usuario=document.querySelector(".perfil-usuario").id
     const apiRaizURL="http://127.0.0.1:5000"
     const mensajeObjeto={
                   contenido: contenidoMensajeLimpio,
