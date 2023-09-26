@@ -53,9 +53,41 @@ perfilUsuario.addEventListener("contextmenu",(e)=>{
   if(menuAbierto){
     cerrarMenusContextualesActivos()
   }
-  mostrarMenuContextual(["Ver perfil","Editar perfil"],e)
+  const menuUsuario=mostrarMenuContextual(["Ver perfil","Editar perfil","Cerrar Sesión"],e)
+  console.log(menuUsuario)
+  accionesUsuario(menuUsuario)
   menuAbierto=true 
 })
+function accionesUsuario(accionesMenuUsuario){
+  const lista_acciones=Array.from(accionesMenuUsuario.querySelector("ul").children)
+  console.log(lista_acciones)
+  lista_acciones.forEach((opcion,indice)=>{
+    opcion.addEventListener("click",()=>{
+      if(indice===0){
+        window.location.href="profile.html"
+      }
+      else if(indice===1){
+        console.log("EDITAR PERFIL")
+      }
+      else{
+        cerrarSesion()
+      }
+    })
+  })
+}
+function cerrarSesion(){
+  const apiRaizURL="http://127.0.0.1:5000"
+  fetch(`${apiRaizURL}/usuario/logout`,{method:"GET"})
+  .then(response=>{
+    if(response.status===200){
+      window.location.href="login.html"
+    }
+    else{
+      throw Error("No se pudo cerrar la sesion")
+    }
+  })
+  .catch(error=>console.log("ERROR",error))
+}
 /* Sacar comentario cuando arregle los errores JS */
 canalesContenedor.addEventListener("contextmenu",(e)=>{
     e.preventDefault();
@@ -73,7 +105,7 @@ canalesContenedor.addEventListener("contextmenu",(e)=>{
         const nombreCanal=canal.querySelector("span").textContent
         const modalEliminarCanal=modalComponenteConfirmacion("Eliminar Canal","Estas seguro que deseas eliminar el canal?:","rgb(85,26,46)","../assets/imagenes/eliminar-canal.png",nombreCanal)
         mostarModalMenuContextuales(modalEliminarCanal)
-        respuestaModalMenuContextuales(modalEliminarCanal,canal,mostrarMensajeSiNoHayCanales,mensajeIndicandoSeleccionCanal)
+        respuestaModalMenuContextuales(modalEliminarCanal,canal,mostrarMensajeSiNoHayCanales,mensajeIndicandoSeleccionCanal,fetchEliminarCanal)
 
       })
       menuAbierto=true
@@ -96,7 +128,7 @@ servidoresContenedor.addEventListener("contextmenu",(e)=>{
       const nombreServidor=servidor.querySelector("img").getAttribute("alt")
       const modalAbandonarServidor=modalComponenteConfirmacion("Abandonar Servidor","Estas seguro que desea abandonar el servidor?:","rgb(29,14,90)","../assets/imagenes/abandonar-servidor.png",nombreServidor)
       mostarModalMenuContextuales(modalAbandonarServidor)
-      respuestaModalMenuContextuales(modalAbandonarServidor,servidor,mostrarMensajeSiNoHayServidores,seEliminoServidorSeleccionado)
+      respuestaModalMenuContextuales(modalAbandonarServidor,servidor,mostrarMensajeSiNoHayServidores,seEliminoServidorSeleccionado,fetchAbandonarServidor)
     })
     menuAbierto=true
   }
@@ -112,16 +144,37 @@ document.addEventListener("click", (e) => {
   }
 
 });
-
-function respuestaModalMenuContextuales(modal,componente,callbackComprobarExistencia,callbackMensajeAyuda){
+function fetchEliminarCanal(canal){
+    const apiRaizURL="http://127.0.0.1:5000"
+    const id_canal=canal.id
+    console.log("CANAL ID",id_canal)
+    return fetch(`${apiRaizURL}/canal/${id_canal}`,{method:"DELETE"})
+}
+function fetchAbandonarServidor(servidor){
+    const apiRaizURL="http://127.0.0.1:5000"
+    const id_usuario_servidor=servidor.querySelector("span").id
+    console.log("SERVIDOR ID",id_usuario_servidor)
+    return fetch(`${apiRaizURL}/usuario_servidor/${id_usuario_servidor}`,{method:"DELETE"})
+}
+function respuestaModalMenuContextuales(modal,componente,callbackComprobarExistencia,callbackMensajeAyuda,fetchEliminarCallback){
     modal.addEventListener("click",(e)=>{
         const confirmar=e.target.closest(".boton-confirmar")
         const cancelar=e.target.closest(".boton-cancelar")
         if(confirmar){
             modal.remove()
-            callbackMensajeAyuda(componente)
-            componente.remove()
-            callbackComprobarExistencia()
+            fetchEliminarCallback(componente).then((response)=>{
+              if(response.status===204){
+                callbackMensajeAyuda(componente)
+                componente.remove()
+                callbackComprobarExistencia()
+              }
+              else{
+                throw Error("Error al eliminar el recurso")
+              }              
+            })  
+            .catch(error=>console.log("ERROR",error))
+            
+            
             
         }
         if(cancelar){
@@ -161,7 +214,6 @@ function comprobarSiExistenServidores(){
 function mostrarMensajeSiNoHayServidores(){
   console.log(comprobarSiExistenServidores())
   if(!comprobarSiExistenServidores()){
-    console.log("Entro ")
     mensajeSiNoHayServidores("../assets/imagenes/explorar-servidores.png","Explore servidores para comunicarse con otras personas")
   }
 }

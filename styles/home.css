@@ -53,13 +53,14 @@
     display: flex;
     flex-direction: column;
 }
-/* .servidores-utilidades .servidores{
-  height: 50%;
-} */
+
+.servidores-del-usuario .servidores{
+  height: 45px;
+  width: 45px;
+}
 .servidores{
     border-radius: 50%;
     margin-bottom: 6px;
-    height: 60px;
     cursor: pointer;
     overflow: hidden;
     transition: border-radius 0.3s ease;
@@ -78,7 +79,7 @@
 .servidores img{
     width: 100%;
     height: 100%;
-    object-fit: cover;
+    object-fit:cover;
 }
 .servidores:hover{
     border-radius: 35%;    
@@ -168,7 +169,7 @@
     background-color: var(--color-mensajeria-input);
 }
 
-#perfil-usuario{
+.perfil-usuario{
     grid-area: perfil-user;
 }
 .agregar-canal{

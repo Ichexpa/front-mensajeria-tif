@@ -28,8 +28,13 @@ contenedorPadreMensaje.addEventListener("click",(e)=>{
 contenedorPadreMensaje.addEventListener("mouseover",(e)=>{
      const mensaje = e.target.closest(".contenedor-mensaje");
      if (mensaje) {
-       const acciones = mensaje.querySelector(".mensaje-acciones");
-       acciones.style.display = "flex";
+        const idUsuarioActual= document.querySelector(".perfil-usuario").id
+        const idUsuarioMensaje= mensaje.querySelector(".mensaje-info").querySelector("span").id
+        console.log(idUsuarioActual,idUsuarioMensaje)
+        if(idUsuarioActual===idUsuarioMensaje){
+            const acciones = mensaje.querySelector(".mensaje-acciones");
+            acciones.style.display = "flex";
+        }       
      }
 })
 contenedorPadreMensaje.addEventListener("mouseout",(e)=>{

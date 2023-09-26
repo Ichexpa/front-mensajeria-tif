@@ -2,8 +2,9 @@ function alternarMensajesSinCanales_Servidores(){
     const servidoresUsuario=document.querySelector(".servidores-del-usuario")
     const imagenInfoUsuario=document.querySelector(".accion-requerida-imagen").children[0];
     const descripcionInfoUsuario=document.querySelector(".accion-requerida-descripcion")
-    console.log()
+
     if(servidoresUsuario.childElementCount===0){
+        console.log("INGRESO")
         imagenInfoUsuario.setAttribute("src","../assets/imagenes/explorar-servidores.png")
         descripcionInfoUsuario.textContent="Explore servidores para comunicarse con otras personas"
     }
@@ -23,4 +24,3 @@ function unServidorEstaSeleccionado(){
     const resultado=contenedorServidores.some(servidor =>servidor.classList.contains("servidor-seleccionado")) 
     return resultado
 }
-alternarMensajesSinCanales_Servidores();
