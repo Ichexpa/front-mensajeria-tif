@@ -1,13 +1,13 @@
 const apiRaizURL="http://127.0.0.1:5000"
-const rutaRaizImagenes="G:/UPATECO/MENSAJERIA_TIF/api_mensajeria/static_folder/servidor_imagenes/"
+const rutaRaizImagenes="http://127.0.0.1:5500/static_folder/"
+cambiarChatXMensajeInformacion() 
+eliminarComponentesCanales()
 const requestOption={
     methods:"GET",
     headers:{
         "Accept":"application/json"
     }
 }
-/*Cargar el perfil del usuario por unica vez*/
-
     fetch(`${apiRaizURL}/usuario/profile`, {
         method: 'GET',
         credentials: 'include'
@@ -22,7 +22,7 @@ const requestOption={
         cargarInfoUsuario(data)
         cargarServidoresDelUsuario()
     }).catch(error=>console.log("Error",error))
-/* POR AHORA SE UTILIZA POR DEFECTO EL ID 1 DESPUES HACERLO DINAMICO */
+
 function cargarServidoresDelUsuario(){
     const id_usuario=document.querySelector(".perfil-usuario").id
     fetch(`${apiRaizURL}/usuario_servidor/usuario/${id_usuario}`)
@@ -35,7 +35,8 @@ function cargarServidoresDelUsuario(){
         }
     })
     .then(data=>{
-        procesarJsonServidorAComponente(data)
+        procesarJsonServidorAComponente(data)        
+        alternarMensajesSinCanales_Servidores()
     } )
     .catch(error=> console.log("ERROR",error))
 }
@@ -46,7 +47,7 @@ function procesarJsonServidorAComponente(json_servidores){
     listado_servidores.forEach(propiedad_servidor_usuario=>{
         const id_usuario_servidor=propiedad_servidor_usuario.id_usuario_servidor
         const servidor=propiedad_servidor_usuario.servidor
-        const rutaCompletaImagen=rutaRaizImagenes+servidor.imagen
+        const rutaCompletaImagen=rutaRaizImagenes+ "servidor_imagenes/" + servidor.imagen
         servidorComponenteAPI(servidor.nombre,rutaCompletaImagen,
                             servidor.descripcion,servidor.id_servidor,id_usuario_servidor)
     })
@@ -62,7 +63,7 @@ function cargarInfoUsuario(json_usuario){
     const componenteImagen=contenedorUsuarioHome.querySelector(".imagen")
     const componenteInfo=contenedorUsuarioHome.querySelector(".info-usuario")
     /* Cambiar cuando este implementado el guardado de imagenes */
-    componenteImagen.querySelector("img").src=avatar
+    componenteImagen.querySelector("img").src= rutaRaizImagenes + "perfil_imagenes/" + avatar
     componenteInfo.querySelector(".nombre-usuario").textContent=nombre_apellido
     componenteInfo.querySelector(".alias-usuario").textContent="#"+nickname
 }
@@ -105,5 +106,3 @@ function cambiarChatXMensajeInformacion(){
     cajaMensaje.style.display="none"
 
 }
-cambiarChatXMensajeInformacion() 
-eliminarComponentesCanales()
