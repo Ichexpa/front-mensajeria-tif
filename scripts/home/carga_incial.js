@@ -1,5 +1,6 @@
 const apiRaizURL="http://127.0.0.1:5000"
 const rutaRaizImagenes="http://127.0.0.1:5500/static_folder/"
+const explorarServidores=document.getElementById("explorar-servidores")
 cambiarChatXMensajeInformacion() 
 eliminarComponentesCanales()
 const requestOption={
@@ -22,7 +23,9 @@ const requestOption={
         cargarInfoUsuario(data)
         cargarServidoresDelUsuario()
     }).catch(error=>console.log("Error",error))
-
+explorarServidores.addEventListener("click",()=>{
+    window.location.href="explorar_servidores.html"
+})
 function cargarServidoresDelUsuario(){
     const id_usuario=document.querySelector(".perfil-usuario").id
     fetch(`${apiRaizURL}/usuario_servidor/usuario/${id_usuario}`)
