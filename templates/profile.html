@@ -15,7 +15,7 @@
             <nav class="nav">
                 <ul class="nav-ul">
                     <li class="nav-item"><a href="home.html">Home</a></li>
-                    <li class="nav-item"><a href="login.html">Cerrar Sesion</a></li>
+                    <li class="nav-item"><a onclick="cerrarSesion()" href="login.html">Cerrar Sesion</a></li>
                 </ul>
             </nav>
         </div>
@@ -29,24 +29,28 @@
     
                         <label for="input_nickname" class="label">Nombre de Usuario</label>
                         <input type="text"  class="input" id="input_nickname" name="input_nickname" 
-                        onmousedown="return false;" required readonly>
+                        readonly required="true">
         
                         <label for="input_nombre" class="label">Nombre</label>
                         <input type="text"  class="input" id="input_nombre" name="input_nombre" 
-                        onmousedown="return false;" required readonly>
+                        readonly required="true">
         
                         <label for="input_apellido" class="label">Apellido</label>
                         <input type="text"  class="input" id="input_apellido" name="input_apellido" 
-                        onmousedown="return false;" required readonly>
+                        readonly required="true">
         
                         <label>Fecha de nacimiento</label>
                         <input type="date" class="input" id="input_fecha" name="input_fecha"
-                        onmousedown="return false;" required readonly>
-                    
-                        <button id="btn_registrar" class="boton-primario">Confirmar</button>
-                        <p class="registrarse">¿No tienes una cuenta? <a href="/">Resgistrarse</a></p>  
+                        readonly required="true">
+                        
+                        <div>
+                            <button id="btn_guardar_perfil" class="boton boton-guardar" style="display: none">Guardar Cambios</button>
+                            <button id="btn_editar_perfil" class="boton boton-editar">Editar</button>
+                            <button id="btn_cancelar_perfil" class="boton boton-cancelar" style="display: none">Cancelar</button>
+                        </div>
+                         
                     </form>
-                    <div id="message" class="message-error"></div>
+                    <div id="message_error_perfil" class="message-error"></div>
                 </article>
                 <article id="info-seguridad" style="display: none;">
                     <p>Cambiar datos de Seguridad:</p>
@@ -54,27 +58,37 @@
     
                         <label for="input_email" class="label">Email</label>
                         <input type="text"  class="input" id="input_email" name="input_email"
-                        onmousedown="return false;" required readonly>
+                         readonly>
         
                         <label for="input_contrasenia" class="label">Contraseña actual</label>
                         <input type="password"  class="input" id="input_contrasenia" name="input_contrasenia"
-                        onmousedown="return false;" required readonly>
+                         readonly>
                         
                         <label for="input_contrasenia_nueva" class="label">Contraseña nueva</label>
                         <input type="password"  class="input" id="input_contrasenia_nueva" name="input_contrasenia_nueva"
-                        onmousedown="return false;" required readonly>
+                         readonly>
 
                         <label for="input_contrasenia_con" class="label">Confirmar contraseña nueva</label>
                         <input type="password"  class="input" id="input_contrasenia_conf" name="input_contrasenia_conf"
-                        onmousedown="return false;" required readonly>
-                    </article>
+                         readonly>
+
+                        <div>
+                            <button id="btn_guardar_seg" class="boton boton-guardar" style="display: none">Guardar Cambios</button>
+                            <button id="btn_editar_seg" class="boton boton-editar">Editar</button>
+                            <button id="btn_cancelar_seg" class="boton boton-cancelar" style="display: none">Cancelar</button>
+                        </div>
+                    </form>
+                    <div id="message_error_seg" class="message-error"></div>
+                </article>
 
                 <article id="info-imagen-profile" style="display: none;">
-                    <div>
+                    <div class="contenedor-foto">
                         <img src="/assets/avatares/imagen1.jpg" alt="">
                     </div>
-                    <label for="input_imagen" class="label">Selecciona una imagen</label>
-                    <input type="file"  class="input" id="input_imagen" name="input_imagen" required>
+                    <form action="" id="form-imagen" class="form">
+                        <label for="input_imagen" class="label">Selecciona una imagen</label>
+                        <input type="file"  class="input-foto" id="input_imagen" name="input_imagen" required>
+                    </fomr>
                 </article>
                 
             </div>
@@ -102,5 +116,6 @@
     </main>
     <script src="../scripts/profile/profile.js"></script>
     <script src="../scripts/profile/aside.js"></script>
+    <script src="../scripts/profile/botones_profile.js"></script>
 </body>
 </html>

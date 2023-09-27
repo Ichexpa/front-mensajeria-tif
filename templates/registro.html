@@ -32,7 +32,7 @@
                 <label>Fecha de nacimiento</label>
                 <input type="date" class="input" id="input-fecha" name="input_fecha">
             
-                <button id="btn_registrar" class="boton-primario">Confirmar</button>
+                <button id="btn_registrar" class="boton boton-inicio-session">Confirmar</button>
                 
             </form>
             <div id="message" class="message-error"></div>
@@ -41,9 +41,7 @@
     </div>
     <script>
         const formulario = document.getElementById("formulario");
-        const btn_registrar = document.getElementById("btn_registrar")
-
-        
+        const btn_registrar = document.getElementById("btn_registrar")   
 
         btn_registrar.addEventListener("click",(e)=>{
             e.preventDefault();
