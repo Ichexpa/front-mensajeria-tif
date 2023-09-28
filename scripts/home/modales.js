@@ -39,6 +39,7 @@ cerrarModalcanal.addEventListener("click",(e)=>{
 
 cerrarModalservidor.addEventListener("click",(e)=>{
     modalAgregarServidor.classList.remove("modal-mostrar")
+    contenedorImagenServidor.src="../assets/iconos/subir_imagen.png"
 })
 
 contenedorSubirImagen.addEventListener("click",(e)=>{
@@ -47,9 +48,8 @@ contenedorSubirImagen.addEventListener("click",(e)=>{
 
 inputFileSubirImagen.addEventListener('change', (e)=> {
     const selectedFile = e.target.files[0];
-    /* const imagen=contenedorSubirImagen.getElementsByTagName("img")[0]; */
     if (selectedFile) {
-      const reader = new FileReader(); // Crea un objeto FileReader
+      const reader = new FileReader();
       
       reader.onload = function(e) {
         contenedorImagenServidor.setAttribute("src",e.target.result)
@@ -90,8 +90,6 @@ agregarCanalModal.addEventListener("click",()=>{
             componenteSiNoExistenCanales.style.display="none"
        })
        .catch(error=>console.log("ERROR",error))
-      
-
     }
     else{
         mensajeErrorCanal.style.display="block"
@@ -105,11 +103,10 @@ agregarServidorModal.addEventListener("click",()=>{
     const imagenServidorInput=inputFileSubirImagen.files[0]
     console.log(imagenServidorInput)
     if(imagenServidor !== "" && inputNombre.trim() !== "" ){
-        const formularioDatosServidor=new FormData()
+        const formularioDatosServidor=new FormData()            
         formularioDatosServidor.append("imagen",imagenServidorInput)
         formularioDatosServidor.append("nombre",inputNombre)
         formularioDatosServidor.append("descripcion",descripcionServidor)
-        console.log(formularioDatosServidor)
         const apiRaizURL="http://127.0.0.1:5000"
         const requestOption={
                             method:"POST",
@@ -126,8 +123,6 @@ agregarServidorModal.addEventListener("click",()=>{
             return data.servidor.id_servidor
         })
         .then(id_servidor=>{
-            console.log(id_servidor)
-            /* DESPUES CAMBIAR EL ID DE USAURIO PARA QUE SEA DINAMICO */
             const id_usuario=document.querySelector(".perfil-usuario").id
             const jsonDataServidorUsuario={id_servidor:id_servidor,id_usuario:id_usuario}
             const requestOption={
@@ -155,8 +150,7 @@ agregarServidorModal.addEventListener("click",()=>{
             }
             throw Error("NO SE PUDO OBTENER INFO DE USUARIO SERVIDOR")
         }).then(data_usuario_servidor=>{
-                console.log(data_usuario_servidor)
-                const rutaRaizImagenes="G:/UPATECO/MENSAJERIA_TIF/api_mensajeria/static_folder/servidor_imagenes/"
+                const rutaRaizImagenes="http://127.0.0.1:5500/static_folder/servidor_imagenes/"
                 const id_usuario_servidor=data_usuario_servidor.id_usuario_servidor
                 const servidor=data_usuario_servidor.servidor
                 const rutaCompletaImagen=rutaRaizImagenes+servidor.imagen

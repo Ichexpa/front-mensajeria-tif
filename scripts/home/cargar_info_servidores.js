@@ -12,8 +12,7 @@ servidores.addEventListener("click",(e)=>{
 
     if(servidorClickeado){
         const id_servidor=servidorClickeado.id
-        console.log("ID DEL SERVIDOR ES",id_servidor)
-        
+ 
         ocultarChatCajaMensajes()
         mensajeServidorClickeado(servidorClickeado)
         limpiarListaCanales()

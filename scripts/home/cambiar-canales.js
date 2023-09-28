@@ -103,7 +103,6 @@ function formatearFecha(fecha_json){
     const anio = fecha.getUTCFullYear();
     const hora = fecha.getUTCHours();
     const minutos = fecha.getUTCMinutes();
-    const segundos = fecha.getUTCSeconds();
     const fechaFormateada = `${diaSemana}, ${dia} ${mes} ${anio} ${hora}:${minutos}`;
 
     console.log(fechaFormateada)
