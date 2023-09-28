@@ -34,14 +34,19 @@ canalesContenedorElemento.addEventListener("click",(e)=>{
         })
         .then(data=>{
             limpiarPantallaMensajes()
-            mensajeJsonAComponente(data)
+            if(data.mensajes.length===0){
+                const mensaje="El canal " + nombreCanal + " no posee mensajes" 
+                alert(mensaje)
+            }
+            else{                
+                mensajeJsonAComponente(data)
+            }
         })
         .catch(error=>console.log("ERROR",error))
     }
 })
 function mensajeJsonAComponente(data){
     const lista_mensajes=data.mensajes
-    console.log(lista_mensajes)
     lista_mensajes.forEach(mensaje=>{
         let usuario=mensaje.usuario
         componenteMensajeAenviarAPI(usuario.nickname,
