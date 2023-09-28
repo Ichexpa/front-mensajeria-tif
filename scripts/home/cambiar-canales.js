@@ -34,14 +34,19 @@ canalesContenedorElemento.addEventListener("click",(e)=>{
         })
         .then(data=>{
             limpiarPantallaMensajes()
-            mensajeJsonAComponente(data)
+            if(data.mensajes.length===0){
+                const mensaje="El canal " + nombreCanal + " no posee mensajes" 
+                alert(mensaje)
+            }
+            else{                
+                mensajeJsonAComponente(data)
+            }
         })
         .catch(error=>console.log("ERROR",error))
     }
 })
 function mensajeJsonAComponente(data){
     const lista_mensajes=data.mensajes
-    console.log(lista_mensajes)
     lista_mensajes.forEach(mensaje=>{
         let usuario=mensaje.usuario
         componenteMensajeAenviarAPI(usuario.nickname,
@@ -85,7 +90,25 @@ function mensajeBienvenidaComponente(nombreCanal,descripcionCanal){
     parrafoBienvenida.textContent=descripcionCanal
     mensajeBienvenida.appendChild(parrafoBienvenida)
 }
+function formatearFecha(fecha_json){
+    const fecha = new Date(fecha_json);
 
+    const diasSemana = ["Dom", "Lun", "Mar", "Mié", "Jue", "Vie", "Sáb"];
+
+    const meses = ["Enero", "Febrero", "Marzo", "Abril", "Mayo", "Junio", "Julio", "Agosto", "Septiembre", "Octubre", "Noviembre", "Diciembre"];
+
+    const diaSemana = diasSemana[fecha.getUTCDay()];
+    const dia = fecha.getUTCDate();
+    const mes = meses[fecha.getUTCMonth()];
+    const anio = fecha.getUTCFullYear();
+    const hora = fecha.getUTCHours();
+    const minutos = fecha.getUTCMinutes();
+    const segundos = fecha.getUTCSeconds();
+    const fechaFormateada = `${diaSemana}, ${dia} ${mes} ${anio} ${hora}:${minutos}`;
+
+    console.log(fechaFormateada)
+    return fechaFormateada
+}
 function componenteMensajeAenviarAPI(nombreUsuario,contenidoMensaje,fechaYhora,id_mensaje,id_usuario){
   const contenedorDeMensajes= document.querySelector(".mensajes");
   const contenedorEstructuraMensajes=document.createElement("div");
@@ -117,7 +140,7 @@ function componenteMensajeAenviarAPI(nombreUsuario,contenidoMensaje,fechaYhora,i
   const contenedorFechaHoraEnvio=document.createElement("div");
   contenedorFechaHoraEnvio.className="mensaje-fecha"
   /* Hora Envio */
-  contenedorFechaHoraEnvio.textContent=fechaYhora;
+  contenedorFechaHoraEnvio.textContent=formatearFecha(fechaYhora);
   contenedorMensajeInfo.appendChild(contenedorFechaHoraEnvio);
   const contenedorAcciones=document.createElement("div");
   contenedorAcciones.className="mensaje-acciones";

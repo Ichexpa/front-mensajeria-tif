@@ -63,11 +63,9 @@ agregarCanalModal.addEventListener("click",()=>{
     if(valorInput.trim() !== ""){
        const apiRaizURL="http://127.0.0.1:5000"
        const id_servidor=getServidorSeleccionado()
-       console.log("SERVIDOR ID DESDE CANALES",id_servidor)
        canalObjeto={nombre:valorInput,
                     descripcion:valorTextAreaDescripcion,
                     id_servidor: id_servidor} 
-        console.log("DATOS",canalObjeto)
        const requestOption={
                             method:"POST",
                             body: JSON.stringify(canalObjeto),

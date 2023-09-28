@@ -1,6 +1,7 @@
 const botonBuscar=document.getElementById("buscar-servidor")
 const apiRaizURL="http://127.0.0.1:5000"
 const rutaRaizImagenes="http://127.0.0.1:5500/static_folder/servidor_imagenes/"
+const volverAlInicio=document.querySelector(".volver-home")
 let requestOption={
     methods:"GET",
     headers:{
@@ -28,6 +29,10 @@ botonBuscar.addEventListener("click",(e)=>{
     }
     
 })
+volverAlInicio.addEventListener("click",()=>{
+    window.location.href="home.html"
+})
+
 function cargarComponenteServidorResultado(json_servidores){
     const listado_servidor=json_servidores.servidores
     listado_servidor.forEach(servidor=>{

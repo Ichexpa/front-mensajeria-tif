@@ -123,6 +123,7 @@
     color: rgb(188, 188, 188);
 }
 .mensajes-usuarios{
+    position: relative;
     grid-area: mensajeria;
     /* border:1px solid black; */
     background-color: var(--color-mensajeria-input);
