@@ -29,7 +29,6 @@ function getProfile() {
     .then(response => {
         if (response.status === 200) {
             return response.json().then(data => {
-                console.log(data);
                 in_nickname.value = data.nickname;
 
                 in_nombre.value = data.nombre;
@@ -43,6 +42,28 @@ function getProfile() {
                 in_email.value = data.email;
 
                 in_imagen.value = data.avatar;
+            });
+        }else{
+            return response.json().then(data => {
+                console.log(data.error.description);
+            });
+        }
+    })
+    .catch(error => {
+        console.log("An error occurred.");
+    });
+}
+
+function cerrarSesion(){
+    const url = "http://127.0.0.1:5000/usuario/logout";
+    fetch(url, {
+        method: 'GET',
+        credentials: 'include'
+    })
+    .then(response => {
+        if (response.status === 200) {
+            return response.json().then(data => {
+                console.log(data);
             });
         }else{
             return response.json().then(data => {

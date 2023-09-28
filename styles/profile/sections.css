@@ -14,6 +14,7 @@
 
 .form{
     display: flex;
+    width: 100%;
     flex-direction: column;
     padding: 10px;
 }
@@ -23,6 +24,23 @@
 }
 
 .input{
+    background-color: var(--color-fondo-input);
+    border: none;
+    height: 30px;
+    padding: 6px;
+    margin-bottom: 12px;
+    font-size: 1em;
+    color: black;
+}
+
+.contenedor-foto{
+    display: flex;
+    justify-content: center;
+    width: 100%;
+    background-color: var(--color-fondo-input);
+}
+.input-foto{
+    text-align: center;
     background-color: var(--color-fondo-input);
     border: none;
     height: 30px;
