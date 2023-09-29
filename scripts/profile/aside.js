@@ -7,7 +7,7 @@ const descripcion_cabecera = document.getElementById("descripcion-cabecera");
 
 function ocultar_articles(){
     for (let articulo of articulos){
-        console.log(articulo.setAttribute('style','display:none'));
+        articulo.setAttribute('style','display:none');
     }
 }
 
