@@ -15,7 +15,7 @@
             <nav class="nav">
                 <ul class="nav-ul">
                     <li class="nav-item"><a href="home.html">Home</a></li>
-                    <li class="nav-item"><a onclick="cerrarSesion()" href="login.html">Cerrar Sesion</a></li>
+                    <li class="nav-item"><a onclick="salirSesion()" href="#">Cerrar Sesion</a></li>
                 </ul>
             </nav>
         </div>
@@ -83,19 +83,24 @@
 
                 <article id="info-imagen-profile" style="display: none;">
                     <div class="contenedor-foto">
-                        <img src="/assets/avatares/imagen1.jpg" alt="">
+                        <img src="/assets/avatares/imagen1.jpg" alt="" id="prev-imagen" class="circle-foto">
                     </div>
-                    <form action="" id="form-imagen" class="form">
+                    <form action="" id="form-imagen" class="form" method="post" enctype="multipart/form-data">
                         <label for="input_imagen" class="label">Selecciona una imagen</label>
-                        <input type="file"  class="input-foto" id="input_imagen" name="input_imagen" required>
+                        <input type="file"  class="input-foto" id="input_imagen" name="input_imagen"  readonly>
+                        <div>
+                            <button id="btn_guardar_foto" class="boton boton-guardar" style="display: none">Guardar Cambios</button>
+                            <button id="btn_editar_foto" class="boton boton-editar">Editar</button>
+                            <button id="btn_cancelar_foto" class="boton boton-cancelar" style="display: none">Cancelar</button>
+                        </div>
                     </fomr>
                 </article>
                 
             </div>
             <div class="aside-container">
                 <div class="contenedor-imagen">
-                    <img src="../assets/avatares/imagen1.jpg" alt="">
-                    <p>Nombre  Usuario</p>
+                    <img src="/assets/avatares/avatar_predeterminado.png" alt="" id="avatar_usuario" class="circle-foto" >
+                    <p id="aside_nickname"></p>
                 </div>
                 <div class="item-container">
                     <ul class="item-container-list">
@@ -117,5 +122,6 @@
     <script src="../scripts/profile/profile.js"></script>
     <script src="../scripts/profile/aside.js"></script>
     <script src="../scripts/profile/botones_profile.js"></script>
+    <script src="../scripts/profile/avatar.js"></script>
 </body>
 </html>

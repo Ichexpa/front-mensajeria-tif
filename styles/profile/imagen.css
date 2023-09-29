@@ -1,0 +1,16 @@
+#prev-imagen{
+    width: 150px;
+    height: 150px;
+}
+
+.circle-foto{
+    border-radius: 50%;
+}
+.contenedor-foto{
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    width: 100%;
+    height: 300px;
+    /* background-color: var(--color-fondo-input); */
+}

@@ -1,6 +1,11 @@
 window.addEventListener('load',function(){
     getProfile();
 });
+
+const avatar_aside = document.getElementById("avatar_usuario");
+
+const nickname_aside = document.getElementById("aside_nickname");
+
 const in_nickname = document.getElementById('input_nickname');
 
 const in_nombre = document.getElementById('input_nombre');
@@ -29,6 +34,9 @@ function getProfile() {
     .then(response => {
         if (response.status === 200) {
             return response.json().then(data => {
+
+                nickname_aside.textContent = data.nickname;
+
                 in_nickname.value = data.nickname;
 
                 in_nombre.value = data.nombre;
@@ -42,6 +50,7 @@ function getProfile() {
                 in_email.value = data.email;
 
                 in_imagen.value = data.avatar;
+                
             });
         }else{
             return response.json().then(data => {
@@ -54,6 +63,13 @@ function getProfile() {
     });
 }
 
+function salirSesion(e){
+    let rta = confirm("Estas seguro de cerrar la session");
+    if (rta == true){
+        cerrarSesion();
+        window.location.href = "login.html";
+    }
+}
 function cerrarSesion(){
     const url = "http://127.0.0.1:5000/usuario/logout";
     fetch(url, {
