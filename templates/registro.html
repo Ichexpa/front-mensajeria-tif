@@ -71,10 +71,14 @@
                     return response.json().then(data => {
                         //window.location.href = "templates/login.html";
                         document.getElementById("message").innerHTML = data.message;
+                        //ver si se agrega una ventana modal
+                        alert(data.message);
+                        window.location.href = "login.html"
                     });
                 } else {
                     return response.json().then(data => {
                         document.getElementById("message").innerHTML = data.error.description;
+                        alert(data.error.message);
                     });
                 }
             })
