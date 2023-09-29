@@ -65,7 +65,6 @@ function cargarInfoUsuario(json_usuario){
     contenedorUsuarioHome.id=id_usuario
     const componenteImagen=contenedorUsuarioHome.querySelector(".imagen")
     const componenteInfo=contenedorUsuarioHome.querySelector(".info-usuario")
-    /* Cambiar cuando este implementado el guardado de imagenes */
     componenteImagen.querySelector("img").src= rutaRaizImagenes + "perfil_imagenes/" + avatar
     componenteInfo.querySelector(".nombre-usuario").textContent=nombre_apellido
     componenteInfo.querySelector(".alias-usuario").textContent="#"+nickname

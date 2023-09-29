@@ -1,4 +1,3 @@
-// JavaScript
 const inputMensaje = document.getElementById("input-mensaje");
 const boton = document.getElementById("boton-enviar");
 const imgEnviar= document.getElementById("img-enviar")
@@ -8,7 +7,6 @@ function enviarMensaje() {
   const contenidoMensajeLimpio=inputMensaje.value.trim()
   console.log(id_canal)
   if (contenidoMensajeLimpio !== "" && id_canal !== null) {
-    /* DESPUES CAMBIAR ID USUARIO DINAMICO */
     const id_usuario=document.querySelector(".perfil-usuario").id
     const apiRaizURL="http://127.0.0.1:5000"
     const mensajeObjeto={
@@ -51,8 +49,6 @@ function enviarMensaje() {
       })
       .then(mensaje_data=>{
         cargarComponenteMensaje(mensaje_data)
-        // Limpiamos el input después de enviar el mensaje
-        // Deshabilitamos el botón después de enviar el mensaje
         inputMensaje.value = "";
         boton.disabled = true;
         deshabilitarEnvio(true)      
@@ -61,13 +57,12 @@ function enviarMensaje() {
 }
 function cargarComponenteMensaje(jsonMensaje){
   const contenido=jsonMensaje.contenido
-  /* DESPUES FORMATEAR */
   const fechaHora=jsonMensaje.fecha_hora
   const id_mensaje=jsonMensaje.id_mensaje
   const nickname=jsonMensaje.usuario.nickname
   const id_usuario=jsonMensaje.usuario.id_usuario
   const avatar=jsonMensaje.usuario.avatar
-  componenteMensajeAenviarAPI(nickname,contenido,fechaHora,id_mensaje,id_usuario)
+  componenteMensajeAenviarAPI(nickname,contenido,fechaHora,id_mensaje,id_usuario,avatar)
 }
 function getCanalSeleccionado(){
   const canal=document.querySelector(".canal-seleccionado")
@@ -75,16 +70,6 @@ function getCanalSeleccionado(){
     return canal.id
   }
   return null
-}
-function fechaYHoraActual(){
-    let fechaYhora= new Date();
-    let h=fechaYhora.getHours();  
-    let m=fechaYhora.getMinutes();  
-    let s=fechaYhora.getSeconds();  
-    let dia=fechaYhora.getDate();  
-    let mes=fechaYhora.getMonth()+1;  
-    let anio=fechaYhora.getFullYear();  
-    return `${dia}-${mes}-${anio} ${h}:${m}:${s}`
 }
 function deshabilitarEnvio(estaVacio){
   if(estaVacio){

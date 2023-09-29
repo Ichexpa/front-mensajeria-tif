@@ -191,7 +191,6 @@ function elCanaltieneDescripcion(descripcion){
     }
 }
 
-/* NO se puede exportar asi que repito la funcion */
 function canalComponenteAPI(nombre,descripcion,id_canal){
     const canalContenedor = document.createElement("div");
     canalContenedor.className = "canal";

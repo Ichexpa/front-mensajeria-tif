@@ -41,19 +41,16 @@ function mostrarMenuContextual(items,e){
   } else {
     menuContextual.style.top = `${posY}px`;
   }  
-  // Ajustar la posición horizontal
   menuContextual.style.left = `${posX}px`;
-  // Retorno el componente para operarlo al activar uno de sus opciones
   return menuContextual
 }
 perfilUsuario.addEventListener("contextmenu",(e)=>{
   e.preventDefault();
-  /* cerrarMenusContextualesActivos() */
   console.log(menuAbierto)
   if(menuAbierto){
     cerrarMenusContextualesActivos()
   }
-  const menuUsuario=mostrarMenuContextual(["Ver perfil","Editar perfil","Cerrar Sesión"],e)
+  const menuUsuario=mostrarMenuContextual(["Ver perfil","Cerrar Sesión"],e)
   console.log(menuUsuario)
   accionesUsuario(menuUsuario)
   menuAbierto=true 
@@ -67,9 +64,6 @@ function accionesUsuario(accionesMenuUsuario){
         window.location.href="profile.html"
       }
       else if(indice===1){
-        console.log("EDITAR PERFIL")
-      }
-      else{
         cerrarSesion()
       }
     })
@@ -147,13 +141,11 @@ document.addEventListener("click", (e) => {
 function fetchEliminarCanal(canal){
     const apiRaizURL="http://127.0.0.1:5000"
     const id_canal=canal.id
-    console.log("CANAL ID",id_canal)
     return fetch(`${apiRaizURL}/canal/${id_canal}`,{method:"DELETE"})
 }
 function fetchAbandonarServidor(servidor){
     const apiRaizURL="http://127.0.0.1:5000"
     const id_usuario_servidor=servidor.querySelector("span").id
-    console.log("SERVIDOR ID",id_usuario_servidor)
     return fetch(`${apiRaizURL}/usuario_servidor/${id_usuario_servidor}`,{method:"DELETE"})
 }
 function respuestaModalMenuContextuales(modal,componente,callbackComprobarExistencia,callbackMensajeAyuda,fetchEliminarCallback){
@@ -172,10 +164,7 @@ function respuestaModalMenuContextuales(modal,componente,callbackComprobarExiste
                 throw Error("Error al eliminar el recurso")
               }              
             })  
-            .catch(error=>console.log("ERROR",error))
-            
-            
-            
+            .catch(error=>console.log("ERROR",error)) 
         }
         if(cancelar){
             modal.remove()
@@ -242,7 +231,6 @@ function mensajeIndicandoSeleccionCanal(canal){
     mensajeSiNoSeSeleccionoUnCanal()
   }
 }
-/* TUVE QUE REPETIR CODIGO PORQUE NO SE PUEDEN IMPORTAR FUNCIONES */
 function eliminarComponentesCanalesSinServidores(){
     const listadoCanalesComponente=document.querySelector(".listado-canales")
     let listadoHijosCanalesComponente=Array.from(listadoCanalesComponente.children)

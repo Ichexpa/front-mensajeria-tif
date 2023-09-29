@@ -11,11 +11,11 @@ servidores.addEventListener("click",(e)=>{
     const servidorClickeado=e.target.closest(".servidores")
 
     if(servidorClickeado){
-        const id_servidor=servidorClickeado.id
- 
+        const id_servidor=servidorClickeado.id 
         ocultarChatCajaMensajes()
         mensajeServidorClickeado(servidorClickeado)
         limpiarListaCanales()
+        
         fetch(`${apiRaizURL}/canal/servidor/${id_servidor}`,requestOption)
         .then(response=>{
             if(response.status===200){
@@ -102,7 +102,6 @@ function ocultarChatCajaMensajes(){
   mensajesUsuarioContenedor.style.display="none"
   cajaMensaje.style.display="none"
 }
-/* CODIGO REPETIDO POR QUE NO ME DEJA EXPORTAR */
 
 function mensajeServidorClickeado(servidorClickeado){  
   const descripcionServidor=descripcionCanalSeleccionado(servidorClickeado)  

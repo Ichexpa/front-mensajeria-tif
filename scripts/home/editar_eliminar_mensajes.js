@@ -125,8 +125,6 @@ function respuestaModalModificacion(modal,textArea,contenedorMensaje,contendorMe
     })
 }
 
-
-/* TUVE QUE REPETIR CODIGO PORQUE NO SE PUEDEN IMPORTAR FUNCIONES */
 function modalComponenteConfirmacion(titulo,titulo_info,color_fondo,imagenURL,contenidoAModificar){
     const modalContendorPrincipal=document.createElement("section")
     modalContendorPrincipal.classList.add("modal")

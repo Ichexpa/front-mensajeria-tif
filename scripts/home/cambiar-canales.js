@@ -27,16 +27,18 @@ canalesContenedorElemento.addEventListener("click",(e)=>{
         .then(response=>{
             if(response.status===200){
                 return response.json()
+                
             }
             else{
                 throw Error("Ocurrio un error en la solicitud")
             }
         })
         .then(data=>{
-            limpiarPantallaMensajes()
+            limpiarPantallaMensajes()        
             if(data.mensajes.length===0){
-                const mensaje="El canal " + nombreCanal + " no posee mensajes" 
-                alert(mensaje)
+                const mensaje= nombreCanal + " no posee mensajes" 
+                setTimeout(alert(mensaje),2200)
+                
             }
             else{                
                 mensajeJsonAComponente(data)
@@ -53,7 +55,8 @@ function mensajeJsonAComponente(data){
                                     mensaje.contenido,
                                     mensaje.fecha_hora,
                                     mensaje.id_mensaje,
-                                    usuario.id_usuario)
+                                    usuario.id_usuario,
+                                    usuario.avatar)
     })
 }
 function limpiarPantallaMensajes(){
@@ -108,7 +111,8 @@ function formatearFecha(fecha_json){
     console.log(fechaFormateada)
     return fechaFormateada
 }
-function componenteMensajeAenviarAPI(nombreUsuario,contenidoMensaje,fechaYhora,id_mensaje,id_usuario){
+function componenteMensajeAenviarAPI(nombreUsuario,contenidoMensaje,fechaYhora,id_mensaje,id_usuario,avatar_ruta){
+  const rutaRaizImagenes="http://127.0.0.1:5500/static_folder/perfil_imagenes/" + avatar_ruta
   const contenedorDeMensajes= document.querySelector(".mensajes");
   const contenedorEstructuraMensajes=document.createElement("div");
   contenedorEstructuraMensajes.className="contenedor-mensaje";
@@ -118,7 +122,7 @@ function componenteMensajeAenviarAPI(nombreUsuario,contenidoMensaje,fechaYhora,i
   const contenedorImg=document.createElement("img");
   contenedorImg.className="img-perfil";
   /* Direccion de la imagen */
-  contenedorImg.src="../assets/avatares/imagen1.jpg";
+  contenedorImg.src=rutaRaizImagenes;
   contenedorImg.alt="Foto de perfil";
   contenedorImgPerfil.appendChild(contenedorImg);
   contenedorEstructuraMensajes.appendChild(contenedorImgPerfil)
