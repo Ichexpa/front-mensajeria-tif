@@ -1,0 +1,18 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Enviar Invitación a un Servidor</title>
+</head>
+<body>
+    <h1>Enviar Invitación a un Servidor</h1>
+    <form action="/invite_to_server" method="post">
+        <label for="server_id">ID del Servidor:</label>
+        <input type="text" name="server_id" id="server_id" required>
+        <label for="recipient">Destinatario:</label>
+        <input type="text" name="recipient" id="recipient" required>
+        <button type="submit">Enviar Invitación</button>
+    </form>
+</body>
+</html>
