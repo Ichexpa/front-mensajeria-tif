@@ -56,7 +56,6 @@ btn_guardar_foto.addEventListener("click",e=>{
     btn_cancelar_foto.style = "display:none";
     btn_editar_foto.style.display = "inline-block";
 
-    getProfile();
 })
 
 
