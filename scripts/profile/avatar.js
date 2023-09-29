@@ -50,11 +50,13 @@ btn_guardar_foto.addEventListener("click",e=>{
           
             console.log("An error occurred.")
         });
-    }
+    };
     desactivarEdicion(form_avatar);
     btn_guardar_foto.style = "display:none";
     btn_cancelar_foto.style = "display:none";
     btn_editar_foto.style.display = "inline-block";
+
+    getProfile();
 })
 
 

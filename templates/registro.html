@@ -36,58 +36,8 @@
                 
             </form>
             <div id="message" class="message-error"></div>
-        </div>
-        
+        </div>    
     </div>
-    <script>
-        const formulario = document.getElementById("formulario");
-        const btn_registrar = document.getElementById("btn_registrar")   
-
-        btn_registrar.addEventListener("click",(e)=>{
-            e.preventDefault();
-            registrar()
-        })
-
-        function registrar(){
-            let datosLogin = new FormData(formulario);
-            const data = {
-                email : datosLogin.get("input_email"),
-                contrasenia : datosLogin.get("input_contrasenia"), 
-                nombre : datosLogin.get("input_nombre"), 
-                apellido : datosLogin.get("input_apellido"), 
-                fecha_nac : datosLogin.get("input_fecha"), 
-                nickname : datosLogin.get("input_nickname")
-            };
-            fetch("http://127.0.0.1:5000/usuario/register", {
-                method: 'POST',
-                headers: {
-                    'Content-Type': 'application/json',
-                },
-                body: JSON.stringify(data),
-            })
-            .then(response => {
-                if (response.status === 201) {
-                    // Redirect to profile page if login is successful
-                    return response.json().then(data => {
-                        //window.location.href = "templates/login.html";
-                        document.getElementById("message").innerHTML = data.message;
-                        //ver si se agrega una ventana modal
-                        alert(data.message);
-                        window.location.href = "login.html"
-                    });
-                } else {
-                    return response.json().then(data => {
-                        document.getElementById("message").innerHTML = data.error.description;
-                        alert(data.error.message);
-                    });
-                }
-            })
-            .catch(error => {
-                document.getElementById("message").innerHTML = "An error occurred.";
-            });
-        }
-
-
-    </script>
+    <script src="../scripts/registro/registro.js"></script>
 </body>
 </html>

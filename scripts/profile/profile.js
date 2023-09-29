@@ -4,6 +4,8 @@ window.addEventListener('load',function(){
 
 const avatar_aside = document.getElementById("avatar_usuario");
 
+const avatar_preview = document.getElementById("prev-imagen");
+
 const nickname_aside = document.getElementById("aside_nickname");
 
 const in_nickname = document.getElementById('input_nickname');
@@ -35,6 +37,16 @@ function getProfile() {
         if (response.status === 200) {
             return response.json().then(data => {
 
+                if(data.avatar == null){
+                    console.log("no hay foto");
+                    avatar_aside.setAttribute('src',"/assets/avatares/predeterminado.png");
+                    avatar_preview.setAttribute('src',"/assets/avatares/predeterminado.png");
+                }else{
+                    console.log(data.avatar)
+                    avatar_aside.setAttribute('src',data.avatar);
+                    avatar_preview.setAttribute('src',data.avatar);
+                };
+
                 nickname_aside.textContent = data.nickname;
 
                 in_nickname.value = data.nickname;
@@ -50,6 +62,8 @@ function getProfile() {
                 in_email.value = data.email;
 
                 in_imagen.value = data.avatar;
+                
+                
                 
             });
         }else{
