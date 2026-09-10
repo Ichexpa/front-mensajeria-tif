@@ -112,7 +112,8 @@ function formatearFecha(fecha_json){
     return fechaFormateada
 }
 function componenteMensajeAenviarAPI(nombreUsuario,contenidoMensaje,fechaYhora,id_mensaje,id_usuario,avatar_ruta){
-  const rutaRaizImagenes="http://127.0.0.1:5500/static_folder/perfil_imagenes/" + avatar_ruta
+  /* const rutaRaizImagenes="http://127.0.0.1:5500/static_folder/perfil_imagenes/" + avatar_ruta */
+  const rutaRaizImagenes=avatar_ruta
   const contenedorDeMensajes= document.querySelector(".mensajes");
   const contenedorEstructuraMensajes=document.createElement("div");
   contenedorEstructuraMensajes.className="contenedor-mensaje";

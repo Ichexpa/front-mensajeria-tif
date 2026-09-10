@@ -1,5 +1,5 @@
 const apiRaizURL="http://127.0.0.1:5000"
-const rutaRaizImagenes="http://127.0.0.1:5500/static_folder/"
+const rutaRaizImagenes="http://127.0.0.1:5501/static_folder/"
 const explorarServidores=document.getElementById("explorar-servidores")
 cambiarChatXMensajeInformacion() 
 eliminarComponentesCanales()
@@ -65,7 +65,8 @@ function cargarInfoUsuario(json_usuario){
     contenedorUsuarioHome.id=id_usuario
     const componenteImagen=contenedorUsuarioHome.querySelector(".imagen")
     const componenteInfo=contenedorUsuarioHome.querySelector(".info-usuario")
-    componenteImagen.querySelector("img").src= rutaRaizImagenes + "perfil_imagenes/" + avatar
+    /* componenteImagen.querySelector("img").src= rutaRaizImagenes + "usuarios_avatares/" + avatar */
+    componenteImagen.querySelector("img").src= avatar
     componenteInfo.querySelector(".nombre-usuario").textContent=nombre_apellido
     componenteInfo.querySelector(".alias-usuario").textContent="#"+nickname
 }

@@ -1,6 +1,6 @@
 const botonBuscar=document.getElementById("buscar-servidor")
 const apiRaizURL="http://127.0.0.1:5000"
-const rutaRaizImagenes="http://127.0.0.1:5500/static_folder/servidor_imagenes/"
+const rutaRaizImagenes="http://127.0.0.1:5501/static_folder/servidor_imagenes/"
 const volverAlInicio=document.querySelector(".volver-home")
 let requestOption={
     methods:"GET",

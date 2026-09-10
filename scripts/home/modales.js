@@ -150,7 +150,7 @@ agregarServidorModal.addEventListener("click",()=>{
             }
             throw Error("NO SE PUDO OBTENER INFO DE USUARIO SERVIDOR")
         }).then(data_usuario_servidor=>{
-                const rutaRaizImagenes="http://127.0.0.1:5500/static_folder/servidor_imagenes/"
+                const rutaRaizImagenes="http://127.0.0.1:5501/static_folder/servidor_imagenes/"
                 const id_usuario_servidor=data_usuario_servidor.id_usuario_servidor
                 const servidor=data_usuario_servidor.servidor
                 const rutaCompletaImagen=rutaRaizImagenes+servidor.imagen
